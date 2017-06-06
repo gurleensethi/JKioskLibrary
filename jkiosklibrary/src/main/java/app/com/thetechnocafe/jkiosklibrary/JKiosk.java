@@ -3,6 +3,7 @@ package app.com.thetechnocafe.jkiosklibrary;
 
 import app.com.thetechnocafe.jkiosklibrary.Apis.Login.KioskLogin;
 import app.com.thetechnocafe.jkiosklibrary.Apis.Semesters.KioskSemesters;
+import app.com.thetechnocafe.jkiosklibrary.Apis.SubjectFaculty.KioskSubjectFaculty;
 
 /**
  * Created by gurleensethi on 06/06/17.
@@ -15,8 +16,13 @@ public class JKiosk {
         return new KioskLogin();
     }
 
-    //Returns an object Kiosk Semester
+    //Returns an object of Kiosk Semester
     public static KioskSemesters getSemestersApi() {
         return new KioskSemesters();
+    }
+
+    //Returns an object of Kiosk Subject Faculty
+    public static KioskSubjectFaculty getSubjectFacultyApi() {
+        return new KioskSubjectFaculty();
     }
 }

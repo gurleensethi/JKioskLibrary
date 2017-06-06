@@ -6,8 +6,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import app.com.tedconsulting.jkiosklib.R;
-import app.com.thetechnocafe.jkiosklibrary.Apis.Semesters.KioskSemesters;
-import app.com.thetechnocafe.jkiosklibrary.Apis.Semesters.SemestersResult;
+import app.com.thetechnocafe.jkiosklibrary.Apis.SubjectFaculty.KioskSubjectFaculty;
+import app.com.thetechnocafe.jkiosklibrary.Apis.SubjectFaculty.SubjectFaculty;
+import app.com.thetechnocafe.jkiosklibrary.Apis.SubjectFaculty.SubjectFacultyResult;
 import app.com.thetechnocafe.jkiosklibrary.Apis.WebkioskCredentials;
 import app.com.thetechnocafe.jkiosklibrary.JKiosk;
 import app.com.thetechnocafe.jkiosklibrary.ResultCallbackContract;
@@ -15,7 +16,7 @@ import app.com.thetechnocafe.jkiosklibrary.ResultCallbackContract;
 public class MainActivity extends AppCompatActivity {
 
     private TextView mTextView;
-    private KioskSemesters kioskSemesters;
+    private KioskSubjectFaculty kioskApi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,16 +24,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mTextView = (TextView) findViewById(R.id.text_view);
-        WebkioskCredentials credentials = new WebkioskCredentials("1410309", "18-08-1996", "Sarusethi@1234");
+        WebkioskCredentials credentials = new WebkioskCredentials("14103093", "18-08-1996", "Sarusethi@1234");
 
-        kioskSemesters = JKiosk.getSemestersApi();
+        kioskApi = JKiosk.getSubjectFacultyApi();
 
-        kioskSemesters.getSemesters(credentials)
-                .addResultCallback(new ResultCallbackContract<SemestersResult>() {
+        kioskApi.getSubjectFaculty(credentials, "2017EVESEM")
+                .addResultCallback(new ResultCallbackContract<SubjectFacultyResult>() {
                     @Override
-                    public void onResult(SemestersResult result) {
-                        for (String string : result.getSemesters()) {
-                            mTextView.append(string + "\n");
+                    public void onResult(SubjectFacultyResult result) {
+                        for(SubjectFaculty subjectFaculty : result.getSubjectFaculties()) {
+                            mTextView.append(subjectFaculty.getSubjectName()+"\n");
                         }
                     }
 
@@ -46,8 +47,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (kioskSemesters != null) {
-            kioskSemesters.removeCallback();
+        if (kioskApi != null) {
+            kioskApi.removeCallback();
         }
     }
 }
