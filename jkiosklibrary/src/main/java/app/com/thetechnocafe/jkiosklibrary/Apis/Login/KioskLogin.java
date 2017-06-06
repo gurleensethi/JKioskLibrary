@@ -42,7 +42,7 @@ public class KioskLogin {
                     Map<String, String> cookies = CookieUtility.getCookiesFor(enrollmentNumber, dateOfBirth, password);
 
                     //Login into webkiosk using the cookies
-                    Document document = Jsoup.connect("https://webkiosk.jiit.ac.in/CommonFiles/UserActionn.jsp")
+                    Document document = Jsoup.connect("https://webkiosk.jiit.ac.in/StudentFiles/StudentPage.jsp")
                             .cookies(cookies)
                             .execute().parse();
 
@@ -51,11 +51,11 @@ public class KioskLogin {
 
                     //Check if the returned web page contains the string "Signin Action"
                     //if yes then login was unsuccessful
-                    if (document.body().toString().toLowerCase().contains("signin action")) {
+                    if (document.toString().contains("FrameLeftStudent.jsp")) {
                         //Check for callbacks
-                        loginResult.setValidCredentials(false);
-                    } else {
                         loginResult.setValidCredentials(true);
+                    } else {
+                        loginResult.setValidCredentials(false);
                     }
 
                     //Check if user has provided a callback
