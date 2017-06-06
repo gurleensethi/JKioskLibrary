@@ -1,10 +1,10 @@
-package app.com.tedconsulting.jkiosklibrary.Exceptions;
+package app.com.thetechnocafe.jkiosklibrary.Exceptions;
 
 /**
  * Created by gurleensethi on 06/06/17.
  */
 
-public class InvalidCredentialsException extends Throwable {
+public class InvalidCredentialsException extends Exception {
     @Override
     public String getMessage() {
         return "Invalid Credentials Provided. Please check your enrollment number, date of birth and password.";

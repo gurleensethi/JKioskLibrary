@@ -1,12 +1,16 @@
-package app.com.tedconsulting.jkiosklibrary.Apis;
+package app.com.thetechnocafe.jkiosklibrary.Apis.Login;
+
+import android.os.Handler;
+import android.os.Looper;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import java.util.Map;
 
-import app.com.tedconsulting.jkiosklibrary.ResultCallbackContract;
-import app.com.tedconsulting.jkiosklibrary.Utilities.CookieUtility;
+import app.com.thetechnocafe.jkiosklibrary.Apis.WebkioskCredentials;
+import app.com.thetechnocafe.jkiosklibrary.ResultCallbackContract;
+import app.com.thetechnocafe.jkiosklibrary.Utilities.CookieUtility;
 
 
 /**
@@ -15,6 +19,11 @@ import app.com.tedconsulting.jkiosklibrary.Utilities.CookieUtility;
 
 public class KioskLogin {
     private ResultCallbackContract<LoginResult> mCallback;
+    private Handler mResultHandler;
+
+    public KioskLogin() {
+        mResultHandler = new Handler(Looper.getMainLooper());
+    }
 
     /*
     * Login in into www.webkiosk.jiit.ac.in
@@ -38,7 +47,7 @@ public class KioskLogin {
                             .execute().parse();
 
                     //Create new login result
-                    LoginResult loginResult = new LoginResult();
+                    final LoginResult loginResult = new LoginResult();
 
                     //Check if the returned web page contains the string "Signin Action"
                     //if yes then login was unsuccessful
@@ -50,17 +59,27 @@ public class KioskLogin {
                     }
 
                     //Check if user has provided a callback
-                    if (mCallback != null) {
-                        mCallback.onResult(loginResult);
-                    }
+                    mResultHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (mCallback != null) {
+                                mCallback.onResult(loginResult);
+                            }
+                        }
+                    });
 
-                } catch (Exception e) {
+                } catch (final Exception e) {
                     e.printStackTrace();
 
                     //Check if callback is provided
-                    if (mCallback != null) {
-                        mCallback.onError(e);
-                    }
+                    mResultHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (mCallback != null) {
+                                mCallback.onError(e);
+                            }
+                        }
+                    });
                 }
             }
         };

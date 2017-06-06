@@ -1,4 +1,4 @@
-package app.com.tedconsulting.jkiosklibrary.Apis;
+package app.com.thetechnocafe.jkiosklibrary.Apis;
 
 /**
  * Created by gurleensethi on 06/06/17.

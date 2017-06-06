@@ -7,6 +7,10 @@ import android.support.test.runner.AndroidJUnit4;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import app.com.thetechnocafe.jkiosklibrary.Apis.Semesters.SemestersResult;
+import app.com.thetechnocafe.jkiosklibrary.JKiosk;
+import app.com.thetechnocafe.jkiosklibrary.ResultCallbackContract;
+
 import static org.junit.Assert.*;
 
 /**
@@ -20,7 +24,17 @@ public class ExampleInstrumentedTest {
     public void useAppContext() throws Exception {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
+        JKiosk.getSemestersApi().getSemesters("141029", "234", "234").addResultCallback(new ResultCallbackContract<SemestersResult>() {
+            @Override
+            public void onResult(SemestersResult result) {
 
-        assertEquals("app.com.tedconsulting.jkiosklib", appContext.getPackageName());
+            }
+
+            @Override
+            public void onError(Exception e) {
+
+            }
+        });
+        assertEquals("app.com.thetechnocafe.jkiosklib", appContext.getPackageName());
     }
 }

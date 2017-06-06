@@ -1,4 +1,4 @@
-package app.com.tedconsulting.jkiosklibrary.Utilities;
+package app.com.thetechnocafe.jkiosklibrary.Utilities;
 
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;

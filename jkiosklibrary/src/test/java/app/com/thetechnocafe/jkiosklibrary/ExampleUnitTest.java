@@ -1,4 +1,4 @@
-package app.com.tedconsulting.jkiosklibrary;
+package app.com.thetechnocafe.jkiosklibrary;
 
 import org.junit.Test;
 
