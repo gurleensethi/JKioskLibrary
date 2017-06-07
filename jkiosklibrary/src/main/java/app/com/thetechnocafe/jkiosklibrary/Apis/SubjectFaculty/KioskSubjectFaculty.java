@@ -10,6 +10,7 @@ import org.jsoup.select.Elements;
 import java.util.Map;
 
 import app.com.thetechnocafe.jkiosklibrary.Apis.WebkioskCredentials;
+import app.com.thetechnocafe.jkiosklibrary.Constants;
 import app.com.thetechnocafe.jkiosklibrary.Exceptions.InvalidCredentialsException;
 import app.com.thetechnocafe.jkiosklibrary.ResultCallbackContract;
 import app.com.thetechnocafe.jkiosklibrary.Utilities.CookieUtility;
@@ -22,6 +23,7 @@ import app.com.thetechnocafe.jkiosklibrary.Utilities.StringUtility;
 public class KioskSubjectFaculty {
     private ResultCallbackContract<SubjectFacultyResult> mCallback;
     private Handler mResultHandler;
+    private static String URL = "https://webkiosk.jiit.ac.in/StudentFiles/Academic/StudSubjectFaculty.jsp";
 
     public KioskSubjectFaculty() {
         mResultHandler = new Handler(Looper.getMainLooper());
@@ -32,7 +34,7 @@ public class KioskSubjectFaculty {
     * Get the cookies and hit the https://webkiosk.jiit.ac.in/StudentFiles/Academic/StudSubjectFaculty.jsp?x=&exam={semesterCode} url
     * to fetch the list of all subject faculty for the semester provided
     * */
-    public KioskSubjectFaculty getSubjectFaculty(final String enrollmentNumber, final String dateOfBirth, final String password, final String semesterCode) {
+    private KioskSubjectFaculty getSubjectFaculty(final String enrollmentNumber, final String dateOfBirth, final String password, final String url) {
         //Execute in different thread
         final Thread thread = new Thread() {
             @Override
@@ -44,7 +46,7 @@ public class KioskSubjectFaculty {
                     Map<String, String> cookies = CookieUtility.getCookiesFor(enrollmentNumber, dateOfBirth, password);
 
                     //Login into webkiosk using the cookies
-                    Document document = Jsoup.connect("https://webkiosk.jiit.ac.in/StudentFiles/Academic/StudSubjectFaculty.jsp?x=&exam=" + semesterCode)
+                    Document document = Jsoup.connect(url)
                             .cookies(cookies)
                             .execute().parse();
 
@@ -117,7 +119,15 @@ public class KioskSubjectFaculty {
     * Overloaded login method that takes WebkioskCredentials object
     * */
     public KioskSubjectFaculty getSubjectFaculty(WebkioskCredentials credentials, String semesterCode) {
-        getSubjectFaculty(credentials.getEnrollmentNumber(), credentials.getDateOfBirth(), credentials.getPassword(), semesterCode);
+        getSubjectFaculty(credentials.getEnrollmentNumber(), credentials.getDateOfBirth(), credentials.getPassword(), URL + Constants.URL_QUERY_PARAM + semesterCode);
+        return this;
+    }
+
+    /*
+    * Overloaded login method that takes WebkioskCredentials object and semester code
+    * */
+    public KioskSubjectFaculty getSubjectFaculty(WebkioskCredentials credentials) {
+        getSubjectFaculty(credentials.getEnrollmentNumber(), credentials.getDateOfBirth(), credentials.getPassword(), URL);
         return this;
     }
 

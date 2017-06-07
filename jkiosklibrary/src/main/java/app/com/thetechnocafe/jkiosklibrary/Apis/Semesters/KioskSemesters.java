@@ -32,7 +32,7 @@ public class KioskSemesters {
     * Get the cookies and hit the https://webkiosk.jiit.ac.in/StudentFiles/Academic/StudSubjectFaculty.jsp url
     * to fetch the list of all semesters
     * */
-    public KioskSemesters getSemesters(final String enrollmentNumber, final String dateOfBirth, final String password) {
+    private KioskSemesters getSemesters(final String enrollmentNumber, final String dateOfBirth, final String password) {
         //Execute in different thread
         final Thread thread = new Thread() {
             @Override
