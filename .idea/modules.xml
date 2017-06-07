@@ -5,8 +5,6 @@
       <module fileurl="file://$PROJECT_DIR$/JKioskLibrary.iml" filepath="$PROJECT_DIR$/JKioskLibrary.iml" />
       <module fileurl="file://$PROJECT_DIR$/JKiosklib.iml" filepath="$PROJECT_DIR$/JKiosklib.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/jkiosklibrary/jkiosklibrary.iml" filepath="$PROJECT_DIR$/jkiosklibrary/jkiosklibrary.iml" />
       <module fileurl="file://$PROJECT_DIR$/jkiosklibrary/jkiosklibrary.iml" filepath="$PROJECT_DIR$/jkiosklibrary/jkiosklibrary.iml" />
     </modules>
   </component>

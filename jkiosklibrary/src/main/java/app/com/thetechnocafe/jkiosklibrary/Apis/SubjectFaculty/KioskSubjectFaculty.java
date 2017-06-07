@@ -13,6 +13,7 @@ import app.com.thetechnocafe.jkiosklibrary.Apis.WebkioskCredentials;
 import app.com.thetechnocafe.jkiosklibrary.Exceptions.InvalidCredentialsException;
 import app.com.thetechnocafe.jkiosklibrary.ResultCallbackContract;
 import app.com.thetechnocafe.jkiosklibrary.Utilities.CookieUtility;
+import app.com.thetechnocafe.jkiosklibrary.Utilities.StringUtility;
 
 /**
  * Created by gurleen on 6/6/17.
@@ -71,15 +72,14 @@ public class KioskSubjectFaculty {
 
                             //Get the sub elements of each row
                             Elements subElements = elements.get(x).getElementsByTag("td");
-                            subjectFaculty.setSubjectName(subElements.get(1).text().replace("&nbsp;","").replace("\u00A0", "").trim());
-                            subjectFaculty.setLectureFaculty(subElements.get(2).text().replace("&nbsp;","").replace("\u00A0", "").trim());
-                            subjectFaculty.setTutorialFaculty(subElements.get(3).text().replace("&nbsp;","").replace("\u00A0", "").trim());
-                            subjectFaculty.setPracticalFaculty(subElements.get(4).text().replace("&nbsp;","").replace("\u00A0", "").trim());
+                            subjectFaculty.setSubjectName(StringUtility.getSubjectName(subElements.get(1).text()));
+                            subjectFaculty.setSubjectCode(StringUtility.getSubjectCode(subElements.get(1).text()));
+                            subjectFaculty.setLectureFaculty(StringUtility.cleanString(subElements.get(2).text()));
+                            subjectFaculty.setTutorialFaculty(StringUtility.cleanString(subElements.get(3).text()));
+                            subjectFaculty.setPracticalFaculty(StringUtility.cleanString(subElements.get(4).text()));
 
                             //Add to subject faculty result
                             subjectFacultyResult.getSubjectFaculties().add(subjectFaculty);
-
-                            System.out.println(subjectFaculty.toString());
                         }
                     }
 

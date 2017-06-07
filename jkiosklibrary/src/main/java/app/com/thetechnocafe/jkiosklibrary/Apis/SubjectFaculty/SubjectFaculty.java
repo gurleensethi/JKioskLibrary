@@ -9,6 +9,7 @@ public class SubjectFaculty {
     private String lectureFaculty;
     private String tutorialFaculty;
     private String practicalFaculty;
+    private String subjectCode;
 
     public String getSubjectName() {
         return subjectName;
@@ -42,6 +43,14 @@ public class SubjectFaculty {
         this.practicalFaculty = practicalFaculty;
     }
 
+    public String getSubjectCode() {
+        return subjectCode;
+    }
+
+    public void setSubjectCode(String subjectCode) {
+        this.subjectCode = subjectCode;
+    }
+
     @Override
     public String toString() {
         return "SubjectFaculty{" +
@@ -49,6 +58,7 @@ public class SubjectFaculty {
                 ", lectureFaculty='" + lectureFaculty + '\'' +
                 ", tutorialFaculty='" + tutorialFaculty + '\'' +
                 ", practicalFaculty='" + practicalFaculty + '\'' +
+                ", subjectCode='" + subjectCode + '\'' +
                 '}';
     }
 }

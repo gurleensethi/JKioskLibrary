@@ -3,11 +3,10 @@ package app.com.thetechnocafe.jkiosklib;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import app.com.tedconsulting.jkiosklib.R;
-import app.com.thetechnocafe.jkiosklibrary.Apis.Login.KioskLogin;
-import app.com.thetechnocafe.jkiosklibrary.Apis.Login.LoginResult;
+import app.com.thetechnocafe.jkiosklibrary.Apis.SubjectFaculty.KioskSubjectFaculty;
+import app.com.thetechnocafe.jkiosklibrary.Apis.SubjectFaculty.SubjectFacultyResult;
 import app.com.thetechnocafe.jkiosklibrary.Apis.WebkioskCredentials;
 import app.com.thetechnocafe.jkiosklibrary.JKiosk;
 import app.com.thetechnocafe.jkiosklibrary.ResultCallbackContract;
@@ -15,7 +14,7 @@ import app.com.thetechnocafe.jkiosklibrary.ResultCallbackContract;
 public class MainActivity extends AppCompatActivity {
 
     private TextView mTextView;
-    private KioskLogin kioskApi;
+    private KioskSubjectFaculty kioskApi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,13 +24,13 @@ public class MainActivity extends AppCompatActivity {
         mTextView = (TextView) findViewById(R.id.text_view);
         WebkioskCredentials credentials = new WebkioskCredentials("14103093", "18-08-1996", "Sarusethi@1234");
 
-        kioskApi = JKiosk.getLoginApi();
+        kioskApi = JKiosk.getSubjectFacultyApi();
 
-        kioskApi.login(credentials)
-                .addResultCallback(new ResultCallbackContract<LoginResult>() {
+        kioskApi.getSubjectFaculty(credentials, "2014ODDSEM")
+                .addResultCallback(new ResultCallbackContract<SubjectFacultyResult>() {
                     @Override
-                    public void onResult(LoginResult result) {
-                        Toast.makeText(getApplicationContext(), String.valueOf(result.isValidCredentials()), Toast.LENGTH_SHORT).show();
+                    public void onResult(SubjectFacultyResult result) {
+
                     }
 
                     @Override
