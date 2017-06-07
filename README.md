@@ -41,9 +41,12 @@ To remove a callback just call the `removeCallback()` function on the Kiosk obje
 #### Note
 Since it takes a couple of seconds to get data from Webkiosk, JKiosk does all the processing in a background Thread and provides the result on Android's `MainThread` so you don't need to handle any kind of threading.
 
-[Login](#login)
+#### Index
+* [Best Practices](#best-practices)
+* [WebkioskCredentials](#webkioskcredentials)
+* [Login](#login)
 
-### WebkioskCredentails
+### WebkioskCredentials
 `WebkioskCredentials` is a java object that is packaged with the library and is required by all the API's for proper functioning. Its contructor takes 3 parameters: `new WebkioskCredentials(enrollmentNumber, dateOfBirth, password)`. All three parameters are of type `String`. The dateOfBirth has to be passed in the format: `dd-mm-yyyy`.
 
 ### Login
@@ -68,5 +71,8 @@ JKiosk.getLoginApi()
              }
        });
 ```
-The `LoginResult` contains the result of login.
-#### Go to the `Best Practices` section to learn and leverage more of the API.
+The `LoginResult` object contains the result of login as a boolean value returned by the function `isValidCredentials()`.
+###### Go to the [Best Practices](#best-practices) section to learn and leverage the API in a better way.
+
+## Best Practices
+Coming Soon!
