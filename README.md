@@ -51,7 +51,7 @@ Since it takes a couple of seconds to get data from Webkiosk, JKiosk does all th
 
 ### Login
 Obtain the `KioskLogin` object from `JKiosk` by calling the `getLoginApi()` method.
-`KioskLogin` contains a function named `login(WebkioskCredentials)` that takes WebkioskCredentials as a parameter. Add a callback to get the returned data from login API.
+`KioskLogin` contains a function named `login(WebkioskCredentials)` that takes WebkioskCredentials as a parameter. Add a callback to get the response from login API.
 ```java
 JKiosk.getLoginApi()
        .login(new WebkioskCredentials("username", "dd-mm-yyyy", "password"))
@@ -72,6 +72,31 @@ JKiosk.getLoginApi()
        });
 ```
 The `LoginResult` object contains the result of login as a boolean value returned by the function `isValidCredentials()`.
+###### Go to the [Best Practices](#best-practices) section to learn and leverage the API in a better way.
+
+### Semesters
+Obtain the `KioskSemesters` object from `JKiosk` by calling the `getSemestersApi()` method.
+`KioskSemesters` contains a function named `getSemesters(WebkioskCredentials)` that takes WebkioskCredentials as a parameter. Add a callback to get the response from semesters API.
+
+The semesters are in format like `2016EVESEM` `2016ODDSEM` `2017ODDSEM`. These semester codes will be required in further API's to get semester specific data.
+```java
+JKiosk.getSemestersApi()
+       .getSemesters(new WebkioskCredentials("username", "dd-mm-yyyy", "password"))
+       .addResultCallback(new ResultCallbackContract<SemestersResult>() {
+            @Override
+            public void onResult(SemestersResult result) {
+                for (String semester : result.getSemesters()) {
+                    Log.d("Semester", semester);
+                }
+             }
+
+             @Override
+             public void onError(Exception e) {
+                //Handle any error here
+             }
+       });
+```
+The `SemestersResult` object contains a list of semesters which can be accessed by calling `getSemesters()`.
 ###### Go to the [Best Practices](#best-practices) section to learn and leverage the API in a better way.
 
 ## Best Practices
