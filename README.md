@@ -119,7 +119,13 @@ JKiosk.getSubjectFacultyApi()
        .addResultCallback(new ResultCallbackContract<SubjectFacultyResult>() {
             @Override
             public void onResult(SubjectFacultyResult result) {
-                
+                for (SubjectFaculty subjectFaculty : result.getSubjectFaculties()) {
+                    subjectFaculty.getSubjectName();
+                    subjectFaculty.getLectureFaculty();
+                    subjectFaculty.getTutorialFaculty();
+                    subjectFaculty.getPracticalFaculty();
+                    subjectFaculty.getSubjectCode();
+                }
             }
 
             @Override
