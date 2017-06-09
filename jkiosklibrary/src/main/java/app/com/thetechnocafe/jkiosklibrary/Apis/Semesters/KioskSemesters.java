@@ -11,6 +11,7 @@ import org.jsoup.select.Elements;
 import java.util.Map;
 
 import app.com.thetechnocafe.jkiosklibrary.Apis.WebkioskCredentials;
+import app.com.thetechnocafe.jkiosklibrary.Constants;
 import app.com.thetechnocafe.jkiosklibrary.Exceptions.InvalidCredentialsException;
 import app.com.thetechnocafe.jkiosklibrary.ResultCallbackContract;
 import app.com.thetechnocafe.jkiosklibrary.Utilities.CookieUtility;
@@ -46,6 +47,7 @@ public class KioskSemesters {
                     //Login into webkiosk using the cookies
                     Document document = Jsoup.connect("https://webkiosk.jiit.ac.in/StudentFiles/Academic/StudSubjectFaculty.jsp")
                             .cookies(cookies)
+                            .userAgent(Constants.AGENT_MOZILLA)
                             .execute().parse();
 
                     //Create new login result

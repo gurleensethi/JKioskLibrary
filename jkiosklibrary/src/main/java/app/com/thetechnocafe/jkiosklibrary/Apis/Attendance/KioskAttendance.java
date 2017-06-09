@@ -49,6 +49,7 @@ public class KioskAttendance {
                     //Login into webkiosk using the cookies
                     Document document = Jsoup.connect(url)
                             .cookies(cookies)
+                            .userAgent(Constants.AGENT_MOZILLA)
                             .execute().parse();
 
                     //Create new subject result

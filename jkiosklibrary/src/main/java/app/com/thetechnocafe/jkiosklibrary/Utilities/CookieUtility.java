@@ -6,6 +6,8 @@ import org.jsoup.Jsoup;
 import java.io.IOException;
 import java.util.Map;
 
+import app.com.thetechnocafe.jkiosklibrary.Constants;
+
 /**
  * Created by gurleensethi on 06/06/17.
  */
@@ -21,6 +23,7 @@ public class CookieUtility {
     public static Map<String, String> getCookiesFor(String enrollmentNumber, String dateOfBirth, String password) throws IOException {
         Connection.Response loginForm = Jsoup.connect("https://webkiosk.jiit.ac.in/")
                 .method(Connection.Method.GET)
+                .userAgent(Constants.AGENT_MOZILLA)
                 .execute();
 
         Connection.Response mainPage = Jsoup.connect("https://webkiosk.jiit.ac.in/CommonFiles/UserActionn.jsp")
