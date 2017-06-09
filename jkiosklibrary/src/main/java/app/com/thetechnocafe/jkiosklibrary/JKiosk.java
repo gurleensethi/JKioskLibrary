@@ -1,6 +1,7 @@
 package app.com.thetechnocafe.jkiosklibrary;
 
 
+import app.com.thetechnocafe.jkiosklibrary.Apis.Attendance.KioskAttendance;
 import app.com.thetechnocafe.jkiosklibrary.Apis.Login.KioskLogin;
 import app.com.thetechnocafe.jkiosklibrary.Apis.Semesters.KioskSemesters;
 import app.com.thetechnocafe.jkiosklibrary.Apis.SubjectFaculty.KioskSubjectFaculty;
@@ -30,5 +31,10 @@ public class JKiosk {
     //Returns an object of Kiosk Subjects
     public static KioskSubjects getSubjectsApi() {
         return new KioskSubjects();
+    }
+
+    //Returns an object of Kiosk Attendance
+    public static KioskAttendance getAttendanceApi() {
+        return new KioskAttendance();
     }
 }

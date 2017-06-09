@@ -6,4 +6,5 @@ package app.com.thetechnocafe.jkiosklibrary;
 
 public class Constants {
     public static final String URL_QUERY_PARAM = "?x=&exam=";
+    public static final String INITIAL_KIOSK_ACADEMIC_URL = "https://webkiosk.jiit.ac.in/StudentFiles/Academic/";
 }

@@ -5,9 +5,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 import app.com.tedconsulting.jkiosklib.R;
-import app.com.thetechnocafe.jkiosklibrary.Apis.SubjectFaculty.KioskSubjectFaculty;
-import app.com.thetechnocafe.jkiosklibrary.Apis.SubjectFaculty.SubjectFaculty;
-import app.com.thetechnocafe.jkiosklibrary.Apis.SubjectFaculty.SubjectFacultyResult;
+import app.com.thetechnocafe.jkiosklibrary.Apis.Attendance.Attendance;
+import app.com.thetechnocafe.jkiosklibrary.Apis.Attendance.AttendanceResult;
+import app.com.thetechnocafe.jkiosklibrary.Apis.Attendance.KioskAttendance;
 import app.com.thetechnocafe.jkiosklibrary.Apis.WebkioskCredentials;
 import app.com.thetechnocafe.jkiosklibrary.JKiosk;
 import app.com.thetechnocafe.jkiosklibrary.ResultCallbackContract;
@@ -15,7 +15,7 @@ import app.com.thetechnocafe.jkiosklibrary.ResultCallbackContract;
 public class MainActivity extends AppCompatActivity {
 
     private TextView mTextView;
-    private KioskSubjectFaculty kioskApi;
+    private KioskAttendance kioskApi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,14 +25,14 @@ public class MainActivity extends AppCompatActivity {
         mTextView = (TextView) findViewById(R.id.text_view);
         WebkioskCredentials credentials = new WebkioskCredentials("14103093", "18-08-1996", "Sarusethi@1234");
 
-        kioskApi = JKiosk.getSubjectFacultyApi();
+        kioskApi = JKiosk.getAttendanceApi();
 
-        kioskApi.getSubjectFaculty(credentials)
-                .addResultCallback(new ResultCallbackContract<SubjectFacultyResult>() {
+        kioskApi.getAttendance(credentials, "2015ODDSEM")
+                .addResultCallback(new ResultCallbackContract<AttendanceResult>() {
                     @Override
-                    public void onResult(SubjectFacultyResult result) {
-                        for (SubjectFaculty subject : result.getSubjectFaculties()) {
-                            mTextView.append(subject.getLectureFaculty() + "\n");
+                    public void onResult(AttendanceResult result) {
+                        for (Attendance attendance : result.getAttendances()) {
+                            System.out.println(attendance.toString());
                         }
                     }
 
