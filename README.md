@@ -45,13 +45,14 @@ Since it takes a couple of seconds to get data from Webkiosk, JKiosk does all th
 * [Best Practices](#best-practices)
 * [WebkioskCredentials](#webkioskcredentials)
 * [Login](#login)
+* [Semesters](#semesters)
 
 ### WebkioskCredentials
 `WebkioskCredentials` is a java object that is packaged with the library and is required by all the API's for proper functioning. Its contructor takes 3 parameters: `new WebkioskCredentials(enrollmentNumber, dateOfBirth, password)`. All three parameters are of type `String`. The dateOfBirth has to be passed in the format: `dd-mm-yyyy`.
 
 ### Login
 Obtain the `KioskLogin` object from `JKiosk` by calling the `getLoginApi()` method.
-`KioskLogin` contains a function named `login(WebkioskCredentials)` that takes WebkioskCredentials as a parameter. Add a callback to get the returned data from login API.
+`KioskLogin` contains a function named `login(WebkioskCredentials)` that takes WebkioskCredentials as a parameter. Add a callback to get the response from login API.
 ```java
 JKiosk.getLoginApi()
        .login(new WebkioskCredentials("username", "dd-mm-yyyy", "password"))
@@ -63,15 +64,77 @@ JKiosk.getLoginApi()
                 } else {
                     //Wrong credentials
                 }
-             }
+            }
 
-             @Override
-             public void onError(Exception e) {
-                //Handle any error here
-             }
+            @Override
+            public void onError(Exception e) {
+               //Handle any error here
+            }
        });
 ```
 The `LoginResult` object contains the result of login as a boolean value returned by the function `isValidCredentials()`.
+###### Go to the [Best Practices](#best-practices) section to learn and leverage the API in a better way.
+
+### Semesters
+Obtain the `KioskSemesters` object from `JKiosk` by calling the `getSemestersApi()` method.
+`KioskSemesters` contains a function named `getSemesters(WebkioskCredentials)` that takes WebkioskCredentials as a parameter. Add a callback to get the response from semesters API.
+
+The semesters are in format like `2016EVESEM` `2016ODDSEM` `2017ODDSEM`. These semester codes will be required in further API's to get semester specific data.
+```java
+JKiosk.getSemestersApi()
+       .getSemesters(new WebkioskCredentials("username", "dd-mm-yyyy", "password"))
+       .addResultCallback(new ResultCallbackContract<SemestersResult>() {
+            @Override
+            public void onResult(SemestersResult result) {
+                for (String semester : result.getSemesters()) {
+                    Log.d("Semester", semester);
+                }
+            }
+
+            @Override
+            public void onError(Exception e) {
+                //Handle any error here
+            }
+       });
+```
+The `SemestersResult` object contains a list of semesters which can be accessed by calling `getSemesters()`.
+###### Go to the [Best Practices](#best-practices) section to learn and leverage the API in a better way.
+
+### Subject Faculty
+Obtain the `KioskSubjectFaculty` object from `JKiosk` by calling the `getSubjectFaculty()` method.
+`KioskSubjectFaculty` contains two functions named `getSubjectFaculty(WebkioskCredentials)` and `getSubjectFaculty(WebkioskCredentials, Semester)`. Add a callback to get the response from semesters API.
+
+`getSubjectFaculty(WebkioskCredentials)` takes a WebkioskCredentials object and returns the default data of the current semester.
+
+`getSubjectFaculty(WebkioskCredentials, Semester)` takes and extra parameter `semester` which is the code for the semester you want the details for. Semesters codes can be obtained from the [Semesters](#semesters) API. So to fetch details for the semester with code `2015EVESEM` the function will be:
+
+```java
+getSubjectFaculty(WebkioskCredentials, "2015EVESEM");
+```
+
+
+```java
+JKiosk.getSubjectFacultyApi()
+       .getSubjectFaculty(new WebkioskCredentials("username", "dd-mm-yyyy", "password"))
+       .addResultCallback(new ResultCallbackContract<SubjectFacultyResult>() {
+            @Override
+            public void onResult(SubjectFacultyResult result) {
+                for (SubjectFaculty subjectFaculty : result.getSubjectFaculties()) {
+                    subjectFaculty.getSubjectName();
+                    subjectFaculty.getLectureFaculty();
+                    subjectFaculty.getTutorialFaculty();
+                    subjectFaculty.getPracticalFaculty();
+                    subjectFaculty.getSubjectCode();
+                }
+            }
+
+            @Override
+            public void onError(Exception e) {
+                //Handle any error here
+            }
+       });
+```
+The `SubjectFacultyResult` object contains a list of `SubjectFaculty` which can be accessed by calling `getSubjectFaculties()`.
 ###### Go to the [Best Practices](#best-practices) section to learn and leverage the API in a better way.
 
 ## Best Practices
