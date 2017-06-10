@@ -49,6 +49,7 @@ Since it takes a couple of seconds to get data from Webkiosk, JKiosk does all th
 * [Subjects](#subjects)
 * [Subject Faculty](#subject-faculty)
 * [Attendance](#attendance)
+* [Detail Attendance](#detail-attendance)
 
 ### WebkioskCredentials
 `WebkioskCredentials` is a java object that is packaged with the library and is required by all the API's for proper functioning. Its contructor takes 3 parameters: `new WebkioskCredentials(enrollmentNumber, dateOfBirth, password)`. All three parameters are of type `String`. The dateOfBirth has to be passed in the format: `dd-mm-yyyy`.
