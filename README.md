@@ -100,8 +100,45 @@ JKiosk.getSemestersApi()
 The `SemestersResult` object contains a list of semesters which can be accessed by calling `getSemesters()`.
 ###### Go to the [Best Practices](#best-practices) section to learn and leverage the API in a better way.
 
+### Subjects
+Obtain the `KioskSubjects` object from `JKiosk` by calling the `getSubjectsApi()` method.
+`KioskSubjects` contains two functions named `getSubjects(WebkioskCredentials)` and `getSubjects(WebkioskCredentials, Semester)`. Add a callback to get the response from semesters API.
+
+`getSubjects(WebkioskCredentials)` takes a WebkioskCredentials object and returns the default data of the current semester.
+
+`getSubjects(WebkioskCredentials, Semester)` takes and extra parameter `semester` which is the code for the semester you want the details for. Semesters codes can be obtained from the [Semesters](#semesters) API. So to fetch details for the semester with code `2015EVESEM` the function will be:
+
+```java
+getSubjects(WebkioskCredentials, "2015EVESEM");
+```
+
+
+```java
+JKiosk.getSubjectFacultyApi()
+       .getSubjectFaculty(new WebkioskCredentials("username", "dd-mm-yyyy", "password"))
+       .addResultCallback(new ResultCallbackContract<SubjectResult>() {
+            @Override
+            public void onResult(SubjectResult result) {
+                for (SubjectFaculty subject : result.getSubjects()) {
+                    subject.getSubjectName();
+                    subject.getSubjectCredits();
+                    subject.getSubjectType();
+                    subject.getSubjectCode();
+                }
+            }
+
+            @Override
+            public void onError(Exception e) {
+                //Handle any error here
+            }
+       });
+```
+The `SubjectResult` object contains a list of `SubjectFaculty` which can be accessed by calling `getSubjects()`.
+###### Go to the [Best Practices](#best-practices) section to learn and leverage the API in a better way.
+
+
 ### Subject Faculty
-Obtain the `KioskSubjectFaculty` object from `JKiosk` by calling the `getSubjectFaculty()` method.
+Obtain the `KioskSubjectFaculty` object from `JKiosk` by calling the `getSubjectFacultyApi()` method.
 `KioskSubjectFaculty` contains two functions named `getSubjectFaculty(WebkioskCredentials)` and `getSubjectFaculty(WebkioskCredentials, Semester)`. Add a callback to get the response from semesters API.
 
 `getSubjectFaculty(WebkioskCredentials)` takes a WebkioskCredentials object and returns the default data of the current semester.
