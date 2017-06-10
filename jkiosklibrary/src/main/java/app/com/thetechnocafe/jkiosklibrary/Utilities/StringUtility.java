@@ -86,4 +86,12 @@ public class StringUtility {
             return null;
         }
     }
+
+    /*
+    * Convert serial number to integer
+    * Format -> 1. (Remove the dot preceding)
+    * */
+    public static int convertStringToIntegerForDetailAttendance(String serialNumber) {
+        return Integer.parseInt(cleanString(serialNumber.replace(".", "")));
+    }
 }
