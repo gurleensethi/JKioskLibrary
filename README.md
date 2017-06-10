@@ -14,7 +14,7 @@ allprojects {
 ```
 2. Add the `JKioskLibrary` dependency in your app level `build.gradle` file
 ```gradle
-compile 'com.github.gurleensethi:JKioskLibrary:v1.0.0-alpha3'
+compile 'com.github.gurleensethi:JKioskLibrary:v1.0.0-alpha4'
 ```
 ## Usage and API
 All the apis can be accessed by using the `JKiosk` object, so suppose to access all semesters of a user, write `JKiosk.getSemestersApi()`. It will return the `KioskSemester` object which can be used to reterive the list of all semesters.
