@@ -109,7 +109,7 @@ Obtain the `KioskSubjects` object from `JKiosk` by calling the `getSubjectsApi()
 
 `getSubjects(WebkioskCredentials)` takes a WebkioskCredentials object and returns the default data of the current semester.
 
-`getSubjects(WebkioskCredentials, Semester)` takes and extra parameter `semester` which is the code for the semester you want the details for. Semesters codes can be obtained from the [Semesters](#semesters) API. So to fetch details for the semester with code `2015EVESEM` the function will be:
+`getSubjects(WebkioskCredentials, Semester)` takes an extra parameter `semester` which is the code for the semester you want the details for. Semesters codes can be obtained from the [Semesters](#semesters) API. So to fetch details for the semester with code `2015EVESEM` the function will be:
 
 ```java
 getSubjects(WebkioskCredentials, "2015EVESEM");
@@ -122,7 +122,7 @@ JKiosk.getSubjectsApi()
        .addResultCallback(new ResultCallbackContract<SubjectResult>() {
             @Override
             public void onResult(SubjectResult result) {
-                for (SubjectFaculty subject : result.getSubjects()) {
+                for (Subject subject : result.getSubjects()) {
                     subject.getSubjectName();
                     subject.getSubjectCredits();
                     subject.getSubjectType();
@@ -146,7 +146,7 @@ Obtain the `KioskSubjectFaculty` object from `JKiosk` by calling the `getSubject
 
 `getSubjectFaculty(WebkioskCredentials)` takes a WebkioskCredentials object and returns the default data of the current semester.
 
-`getSubjectFaculty(WebkioskCredentials, Semester)` takes and extra parameter `semester` which is the code for the semester you want the details for. Semesters codes can be obtained from the [Semesters](#semesters) API. So to fetch details for the semester with code `2015EVESEM` the function will be:
+`getSubjectFaculty(WebkioskCredentials, Semester)` takes an extra parameter `semester` which is the code for the semester you want the details for. Semesters codes can be obtained from the [Semesters](#semesters) API. So to fetch details for the semester with code `2015EVESEM` the function will be:
 
 ```java
 getSubjectFaculty(WebkioskCredentials, "2015EVESEM");
@@ -183,7 +183,7 @@ Obtain the `KioskAttendance` object from `JKiosk` by calling the `getAttendanceA
 
 `getAttendance(WebkioskCredentials)` takes a WebkioskCredentials object and returns the default data of the current semester.
 
-`getAttendance(WebkioskCredentials, Semester)` takes and extra parameter `semester` which is the code for the semester you want the details for. Semesters codes can be obtained from the [Semesters](#semesters) API. So to fetch details for the semester with code `2015EVESEM` the function will be:
+`getAttendance(WebkioskCredentials, Semester)` takes an extra parameter `semester` which is the code for the semester you want the details for. Semesters codes can be obtained from the [Semesters](#semesters) API. So to fetch details for the semester with code `2015EVESEM` the function will be:
 
 ```java
 getAttendance(WebkioskCredentials, "2015EVESEM");
@@ -196,14 +196,14 @@ JKiosk.getAttendanceApi()
        .addResultCallback(new ResultCallbackContract<AttendanceResult>() {
             @Override
             public void onResult(AttendanceResult result) {
-                for (AttendanceResult attendance : result.getAttendances()) {
+                for (Attendance attendance : result.getAttendances()) {
                     attendance.getSubjectName();
                     attendance.getSubjectCode();
                     attendance.getOverallAttendance();
                     attendance.getLectureAttendance();
                     attendance.getTutorialAttendance();
                     attendance.getPracticalAttendance();
-                    attendance.getDetailAttendanceUrl();
+                    attendance.getDetailAttendanceUrl();    //Link used to fetch the detail attendance
                 }
             }
 
@@ -215,12 +215,44 @@ JKiosk.getAttendanceApi()
 ```
 The `AttendanceResult` object contains a list of `Attendance` which can be accessed by calling `getAttendances()`.
 
+If the subject is a particular type and doesn't have a particular attendance then it will return `null`. For example if a subject is practical type then it doesn't have lecture and tutorial attendance, so the `getLectureAttendance()` and `getTutorialAttendance()` will return `null` similary for a theory subject `getPracticalAttendance()` will return `null`.
+
 ##### Note
 To get the detailed attendance of a subject, grab the *detail attendance url* of that subject by calling the `getDetailAttendanceUrl()` and use it in the [Detail Attendance](#detail-attendance) Api.
 
 ###### Go to the [Best Practices](#best-practices) section to learn and leverage the API in a better way.
 
 ### Detail Attendance
+Obtain the `KioskDetailAttendance` object from `JKiosk` by calling the `getDetailAttendanceApi()` method.
+`KioskDetailAttendance` contains a function named `getDetailAttendance(WebkioskCredentials, DetailAttendanceUrl)`. Add a callback to get the response from detail attendance API.
+
+`getDetailAttendance(WebkioskCredentials, DetailAttendanceUrl)` takes a parameter `DetailAttendanceUrl` which is the link for the detail attendance of a subject that can be obtained when fetching attendance from the [Attendance](#attendance) API.
+
+```java
+JKiosk.getDetailAttendanceApi()
+       .getDetailAttendance(new WebkioskCredentials("username", "dd-mm-yyyy", "password"), "some long url")
+       .addResultCallback(new ResultCallbackContract<AttendanceResult>() {
+            @Override
+            public void onResult(AttendanceResult result) {
+                for (DetailAttendance attendance : result.getDetailAttendances()) {
+                    attendance.getSerialNumber();
+                    attendance.getDate();
+                    attendance.getFacultyName();
+                    attendance.getStatus();    //Returns "Present" or "Absent"
+                    attendance.getClassType();    //Returns "Regular" or "Extra"
+                    attendance.getLtp();    //LTP tells lecture type, whether it is a lecture or tutorial
+                }
+            }
+
+            @Override
+            public void onError(Exception e) {
+                //Handle any error here
+            }
+       });
+```
+The `DetailAttendanceResult` object contains a list of `DetailAttendance` which can be accessed by calling `getDetailAttendances()`.
+
+###### Go to the [Best Practices](#best-practices) section to learn and leverage the API in a better way.
 
 ## Best Practices
 Coming Soon!
