@@ -46,6 +46,9 @@ Since it takes a couple of seconds to get data from Webkiosk, JKiosk does all th
 * [WebkioskCredentials](#webkioskcredentials)
 * [Login](#login)
 * [Semesters](#semesters)
+* [Subjects](#subjects)
+* [Subject Faculty](#subject-faculty)
+* [Attendance](#attendance)
 
 ### WebkioskCredentials
 `WebkioskCredentials` is a java object that is packaged with the library and is required by all the API's for proper functioning. Its contructor takes 3 parameters: `new WebkioskCredentials(enrollmentNumber, dateOfBirth, password)`. All three parameters are of type `String`. The dateOfBirth has to be passed in the format: `dd-mm-yyyy`.
@@ -102,7 +105,7 @@ The `SemestersResult` object contains a list of semesters which can be accessed 
 
 ### Subjects
 Obtain the `KioskSubjects` object from `JKiosk` by calling the `getSubjectsApi()` method.
-`KioskSubjects` contains two functions named `getSubjects(WebkioskCredentials)` and `getSubjects(WebkioskCredentials, Semester)`. Add a callback to get the response from semesters API.
+`KioskSubjects` contains two functions named `getSubjects(WebkioskCredentials)` and `getSubjects(WebkioskCredentials, Semester)`. Add a callback to get the response from subjects API.
 
 `getSubjects(WebkioskCredentials)` takes a WebkioskCredentials object and returns the default data of the current semester.
 
@@ -114,8 +117,8 @@ getSubjects(WebkioskCredentials, "2015EVESEM");
 
 
 ```java
-JKiosk.getSubjectFacultyApi()
-       .getSubjectFaculty(new WebkioskCredentials("username", "dd-mm-yyyy", "password"))
+JKiosk.getSubjectsApi()
+       .getSubjects(new WebkioskCredentials("username", "dd-mm-yyyy", "password"))
        .addResultCallback(new ResultCallbackContract<SubjectResult>() {
             @Override
             public void onResult(SubjectResult result) {
@@ -139,7 +142,7 @@ The `SubjectResult` object contains a list of `SubjectFaculty` which can be acce
 
 ### Subject Faculty
 Obtain the `KioskSubjectFaculty` object from `JKiosk` by calling the `getSubjectFacultyApi()` method.
-`KioskSubjectFaculty` contains two functions named `getSubjectFaculty(WebkioskCredentials)` and `getSubjectFaculty(WebkioskCredentials, Semester)`. Add a callback to get the response from semesters API.
+`KioskSubjectFaculty` contains two functions named `getSubjectFaculty(WebkioskCredentials)` and `getSubjectFaculty(WebkioskCredentials, Semester)`. Add a callback to get the response from subject faculty API.
 
 `getSubjectFaculty(WebkioskCredentials)` takes a WebkioskCredentials object and returns the default data of the current semester.
 
@@ -173,6 +176,51 @@ JKiosk.getSubjectFacultyApi()
 ```
 The `SubjectFacultyResult` object contains a list of `SubjectFaculty` which can be accessed by calling `getSubjectFaculties()`.
 ###### Go to the [Best Practices](#best-practices) section to learn and leverage the API in a better way.
+
+### Attendance
+Obtain the `KioskAttendance` object from `JKiosk` by calling the `getAttendanceApi()` method.
+`KioskAttendance` contains two functions named `getAttendance(WebkioskCredentials)` and `getAttendance(WebkioskCredentials, Semester)`. Add a callback to get the response from attendance API.
+
+`getAttendance(WebkioskCredentials)` takes a WebkioskCredentials object and returns the default data of the current semester.
+
+`getAttendance(WebkioskCredentials, Semester)` takes and extra parameter `semester` which is the code for the semester you want the details for. Semesters codes can be obtained from the [Semesters](#semesters) API. So to fetch details for the semester with code `2015EVESEM` the function will be:
+
+```java
+getAttendance(WebkioskCredentials, "2015EVESEM");
+```
+
+
+```java
+JKiosk.getAttendanceApi()
+       .getAttendance(new WebkioskCredentials("username", "dd-mm-yyyy", "password"))
+       .addResultCallback(new ResultCallbackContract<AttendanceResult>() {
+            @Override
+            public void onResult(AttendanceResult result) {
+                for (AttendanceResult attendance : result.getAttendances()) {
+                    attendance.getSubjectName();
+                    attendance.getSubjectCode();
+                    attendance.getOverallAttendance();
+                    attendance.getLectureAttendance();
+                    attendance.getTutorialAttendance();
+                    attendance.getPracticalAttendance();
+                    attendance.getDetailAttendanceUrl();
+                }
+            }
+
+            @Override
+            public void onError(Exception e) {
+                //Handle any error here
+            }
+       });
+```
+The `AttendanceResult` object contains a list of `Attendance` which can be accessed by calling `getAttendances()`.
+
+##### Note
+To get the detailed attendance of a subject, grab the *detail attendance url* of that subject by calling the `getDetailAttendanceUrl()` and use it in the [Detail Attendance](#detail-attendance) Api.
+
+###### Go to the [Best Practices](#best-practices) section to learn and leverage the API in a better way.
+
+### Detail Attendance
 
 ## Best Practices
 Coming Soon!
