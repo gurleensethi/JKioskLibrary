@@ -1,10 +1,11 @@
-package app.com.thetechnocafe.jkiosklibrary.Apis.Subjects;
+package app.com.thetechnocafe.jkiosklibrary.Apis.CgpaReport;
 
 import android.os.Handler;
 import android.os.Looper;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.util.Map;
@@ -17,24 +18,24 @@ import app.com.thetechnocafe.jkiosklibrary.Utilities.CookieUtility;
 import app.com.thetechnocafe.jkiosklibrary.Utilities.StringUtility;
 
 /**
- * Created by gurleen on 7/6/17.
+ * Created by gurleen on 11/6/17.
  */
 
-public class KioskSubjects {
-    private ResultCallbackContract<SubjectResult> mCallback;
+public class KioskCgpaReport {
+    private ResultCallbackContract<CgpaReportResult> mCallback;
     private Handler mResultHandler;
-    private static String URL = "https://webkiosk.jiit.ac.in/StudentFiles/Academic/StudSubjectTaken.jsp";
+    private static String URL = "https://webkiosk.jiit.ac.in/StudentFiles/Exam/StudCGPAReport.jsp";
 
-    public KioskSubjects() {
+    public KioskCgpaReport() {
         mResultHandler = new Handler(Looper.getMainLooper());
     }
 
     /*
     * Login in into www.webkiosk.jiit.ac.in
-    * Get the cookies and hit the https://webkiosk.jiit.ac.in/StudentFiles/Academic/StudSubjectTaken.jsp url
-    * to fetch the list of subjects for a given semester
+    * Get the cookies and hit the https://webkiosk.jiit.ac.in/StudentFiles/Exam/StudCGPAReport.jsp url
+    * to fetch the list of cgpa and sgpa
     * */
-    private KioskSubjects getSubjects(final String enrollmentNumber, final String dateOfBirth, final String password, final String url) {
+    private KioskCgpaReport getCgpaReport(final String enrollmentNumber, final String dateOfBirth, final String password, final String url) {
         //Execute in different thread
         Thread thread = new Thread() {
             @Override
@@ -52,7 +53,7 @@ public class KioskSubjects {
                             .execute().parse();
 
                     //Create new subject result
-                    final SubjectResult subjectResult = new SubjectResult();
+                    final CgpaReportResult cgpaReportResult = new CgpaReportResult();
 
                     //Check if the returned web page contains the string "session timeout"
                     //if yes then login was unsuccessful
@@ -66,19 +67,20 @@ public class KioskSubjects {
                                 .get(2).getElementsByTag("tbody")
                                 .get(0).children();
 
-                        //Iterate over the list of table rows and fetch the subjects and their corresponding info
-                        //Neglect first and last row as they are garbage
-                        for (int x = 1; x < elements.size() - 1; x++) {
-                            Elements subElements = elements.get(x).children();
+                        for (Element element : elements) {
+                            Elements subElements = element.children();
 
-                            //Create subject and add to subject result list
-                            Subject subject = new Subject();
-                            subject.setSubjectName(StringUtility.getSubjectName(subElements.get(1).text()));
-                            subject.setSubjectCode(StringUtility.getSubjectCode(subElements.get(1).text()));
-                            subject.setSubjectCredits(Integer.parseInt(StringUtility.cleanString(subElements.get(2).text())));
-                            subject.setSubjectType(StringUtility.cleanString(subElements.get(3).text()));
+                            CgpaReport cgpaReport = new CgpaReport();
+                            cgpaReport.setSemesterIndex(Integer.parseInt(StringUtility.cleanString(subElements.get(0).text())));
+                            cgpaReport.setGradePoints(Double.parseDouble(StringUtility.cleanString(subElements.get(1).text())));
+                            cgpaReport.setCourseCredit(Double.parseDouble(StringUtility.cleanString(subElements.get(2).text())));
+                            cgpaReport.setEarnedCredit(Double.parseDouble(StringUtility.cleanString(subElements.get(3).text())));
+                            cgpaReport.setPointsSecuredSgpa(Double.parseDouble(StringUtility.cleanString(subElements.get(4).text())));
+                            cgpaReport.setPointsSecuredCgpa(Double.parseDouble(StringUtility.cleanString(subElements.get(5).text())));
+                            cgpaReport.setSgpa(Double.parseDouble(StringUtility.cleanString(subElements.get(6).text())));
+                            cgpaReport.setCgpa(Double.parseDouble(StringUtility.cleanString(subElements.get(7).text())));
 
-                            subjectResult.getSubjects().add(subject);
+                            cgpaReportResult.getCgpaReports().add(cgpaReport);
                         }
 
                     }
@@ -88,7 +90,7 @@ public class KioskSubjects {
                         @Override
                         public void run() {
                             if (mCallback != null) {
-                                mCallback.onResult(subjectResult);
+                                mCallback.onResult(cgpaReportResult);
                             }
                         }
                     });
@@ -114,25 +116,17 @@ public class KioskSubjects {
     }
 
     /*
-    * Overloaded method that takes WebkioskCredentials object
+    * Overloaded method that takes Webkiosk Credentials
     * */
-    public KioskSubjects getSubjects(WebkioskCredentials credentials, String semester) {
-        getSubjects(credentials.getEnrollmentNumber(), credentials.getDateOfBirth(), credentials.getPassword(), URL + Constants.URL_QUERY_PARAM + semester);
-        return this;
-    }
-
-    /*
-    * Overloaded method that loads gets the data for default semester
-    * */
-    public KioskSubjects getSubjects(WebkioskCredentials credentials) {
-        getSubjects(credentials.getEnrollmentNumber(), credentials.getDateOfBirth(), credentials.getPassword(), URL);
+    public KioskCgpaReport getCgpaReport(WebkioskCredentials credentials) {
+        getCgpaReport(credentials.getEnrollmentNumber(), credentials.getDateOfBirth(), credentials.getPassword(), URL);
         return this;
     }
 
     /*
      * Set a callback to get result from the login API
      */
-    public void addResultCallback(ResultCallbackContract<SubjectResult> callback) {
+    public void addResultCallback(ResultCallbackContract<CgpaReportResult> callback) {
         this.mCallback = callback;
     }
 

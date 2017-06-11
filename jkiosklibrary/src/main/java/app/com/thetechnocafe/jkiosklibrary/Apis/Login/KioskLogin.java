@@ -51,7 +51,7 @@ public class KioskLogin {
                     //Create new login result
                     final LoginResult loginResult = new LoginResult();
 
-                    //Check if the returned web page contains the string "Signin Action"
+                    //Check if the returned web page contains the string
                     //if yes then login was unsuccessful
                     if (document.toString().contains("FrameLeftStudent.jsp")) {
                         //Check for callbacks

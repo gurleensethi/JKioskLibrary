@@ -54,7 +54,7 @@ public class KioskDetailAttendance {
                     //Create new subject result
                     final DetailAttendanceResult detailAttendanceResult = new DetailAttendanceResult();
 
-                    //Check if the returned web page contains the string "Signin Action"
+                    //Check if the returned web page contains the string "session timeout"
                     //if yes then login was unsuccessful
                     if (document.body().toString().toLowerCase().contains("session timeout")) {
                         //Throw invalid credentials exception
