@@ -14,7 +14,7 @@ allprojects {
 ```
 2. Add the `JKioskLibrary` dependency in your app level `build.gradle` file
 ```gradle
-compile 'com.github.gurleensethi:JKioskLibrary:v1.0.0-alpha5'
+compile 'com.github.gurleensethi:JKioskLibrary:v1.0.0-beta'
 ```
 
 ## Usage and API
