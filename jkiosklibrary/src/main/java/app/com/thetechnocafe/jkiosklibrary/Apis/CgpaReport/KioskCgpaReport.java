@@ -13,15 +13,16 @@ import java.util.Map;
 import app.com.thetechnocafe.jkiosklibrary.Apis.WebkioskCredentials;
 import app.com.thetechnocafe.jkiosklibrary.Constants;
 import app.com.thetechnocafe.jkiosklibrary.Exceptions.InvalidCredentialsException;
-import app.com.thetechnocafe.jkiosklibrary.ResultCallbackContract;
+import app.com.thetechnocafe.jkiosklibrary.Contracts.ResultCallbackContract;
 import app.com.thetechnocafe.jkiosklibrary.Utilities.CookieUtility;
+import app.com.thetechnocafe.jkiosklibrary.Contracts.KioskContract;
 import app.com.thetechnocafe.jkiosklibrary.Utilities.StringUtility;
 
 /**
  * Created by gurleen on 11/6/17.
  */
 
-public class KioskCgpaReport {
+public class KioskCgpaReport implements KioskContract<CgpaReportResult> {
     private ResultCallbackContract<CgpaReportResult> mCallback;
     private Handler mResultHandler;
     private static String URL = "https://webkiosk.jiit.ac.in/StudentFiles/Exam/StudCGPAReport.jsp";
@@ -126,6 +127,7 @@ public class KioskCgpaReport {
     /*
      * Set a callback to get result from the login API
      */
+    @Override
     public void addResultCallback(ResultCallbackContract<CgpaReportResult> callback) {
         this.mCallback = callback;
     }
@@ -133,6 +135,7 @@ public class KioskCgpaReport {
     /*
     * Remove the provided callback by the user if result is no longer required
     * */
+    @Override
     public void removeCallback() {
         this.mCallback = null;
     }

@@ -10,7 +10,7 @@ import app.com.thetechnocafe.jkiosklibrary.Apis.ExamGrades.ExamGradesResult;
 import app.com.thetechnocafe.jkiosklibrary.Apis.ExamGrades.KioskExamGrades;
 import app.com.thetechnocafe.jkiosklibrary.Apis.WebkioskCredentials;
 import app.com.thetechnocafe.jkiosklibrary.JKiosk;
-import app.com.thetechnocafe.jkiosklibrary.ResultCallbackContract;
+import app.com.thetechnocafe.jkiosklibrary.Contracts.ResultCallbackContract;
 
 public class MainActivity extends AppCompatActivity {
 

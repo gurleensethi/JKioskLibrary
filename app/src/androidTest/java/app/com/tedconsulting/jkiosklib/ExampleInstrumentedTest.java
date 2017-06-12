@@ -9,7 +9,7 @@ import org.junit.runner.RunWith;
 
 import app.com.thetechnocafe.jkiosklibrary.Apis.Semesters.SemestersResult;
 import app.com.thetechnocafe.jkiosklibrary.JKiosk;
-import app.com.thetechnocafe.jkiosklibrary.ResultCallbackContract;
+import app.com.thetechnocafe.jkiosklibrary.Contracts.ResultCallbackContract;
 
 import static org.junit.Assert.*;
 

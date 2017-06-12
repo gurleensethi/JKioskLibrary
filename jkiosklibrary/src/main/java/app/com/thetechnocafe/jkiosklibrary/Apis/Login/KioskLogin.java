@@ -10,15 +10,16 @@ import java.util.Map;
 
 import app.com.thetechnocafe.jkiosklibrary.Apis.WebkioskCredentials;
 import app.com.thetechnocafe.jkiosklibrary.Constants;
-import app.com.thetechnocafe.jkiosklibrary.ResultCallbackContract;
+import app.com.thetechnocafe.jkiosklibrary.Contracts.ResultCallbackContract;
 import app.com.thetechnocafe.jkiosklibrary.Utilities.CookieUtility;
+import app.com.thetechnocafe.jkiosklibrary.Contracts.KioskContract;
 
 
 /**
  * Created by gurleensethi on 06/06/17.
  */
 
-public class KioskLogin {
+public class KioskLogin implements KioskContract<LoginResult> {
     private ResultCallbackContract<LoginResult> mCallback;
     private Handler mResultHandler;
 
@@ -101,6 +102,7 @@ public class KioskLogin {
     /*
      * Set a callback to get result from the login API
      */
+    @Override
     public void addResultCallback(ResultCallbackContract<LoginResult> callback) {
         this.mCallback = callback;
     }
@@ -108,6 +110,7 @@ public class KioskLogin {
     /*
     * Remove the provided callback by the user if result is no longer required
     * */
+    @Override
     public void removeCallback() {
         this.mCallback = null;
     }

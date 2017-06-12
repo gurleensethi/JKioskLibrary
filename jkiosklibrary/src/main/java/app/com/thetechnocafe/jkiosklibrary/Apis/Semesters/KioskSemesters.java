@@ -13,14 +13,15 @@ import java.util.Map;
 import app.com.thetechnocafe.jkiosklibrary.Apis.WebkioskCredentials;
 import app.com.thetechnocafe.jkiosklibrary.Constants;
 import app.com.thetechnocafe.jkiosklibrary.Exceptions.InvalidCredentialsException;
-import app.com.thetechnocafe.jkiosklibrary.ResultCallbackContract;
+import app.com.thetechnocafe.jkiosklibrary.Contracts.ResultCallbackContract;
 import app.com.thetechnocafe.jkiosklibrary.Utilities.CookieUtility;
+import app.com.thetechnocafe.jkiosklibrary.Contracts.KioskContract;
 
 /**
  * Created by gurleensethi on 06/06/17.
  */
 
-public class KioskSemesters {
+public class KioskSemesters implements KioskContract<SemestersResult> {
     private ResultCallbackContract<SemestersResult> mCallback;
     private Handler mResultHandler;
 
@@ -114,6 +115,7 @@ public class KioskSemesters {
     /*
      * Set a callback to get result from the login API
      */
+    @Override
     public void addResultCallback(ResultCallbackContract<SemestersResult> callback) {
         this.mCallback = callback;
     }
@@ -121,6 +123,7 @@ public class KioskSemesters {
     /*
     * Remove the provided callback by the user if result is no longer required
     * */
+    @Override
     public void removeCallback() {
         this.mCallback = null;
     }
