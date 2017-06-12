@@ -4,7 +4,7 @@ package app.com.thetechnocafe.jkiosklibrary.Apis.ExamGrades;
  * Created by gurleensethi on 12/06/17.
  */
 
-public class ExamGrades {
+public class ExamGrade {
     private int serialNumber;
     private String subjectName;
     private String subjectCode;

@@ -74,14 +74,14 @@ public class KioskExamGrades implements KioskContract<ExamGradesResult> {
                         for (Element element : elements) {
                             Elements subElements = element.children();
 
-                            ExamGrades examGrades = new ExamGrades();
-                            examGrades.setSerialNumber(StringUtility.convertStringToIntegerForDetailAttendance(subElements.get(0).text()));
-                            examGrades.setSubjectName(StringUtility.getSubjectName(subElements.get(1).text()));
-                            examGrades.setSubjectCode(StringUtility.getSubjectCode(subElements.get(1).text()));
-                            examGrades.setExamCode(StringUtility.cleanString(subElements.get(2).text()));
-                            examGrades.setGrade(StringUtility.cleanString(subElements.get(3).text()));
+                            ExamGrade examGrade = new ExamGrade();
+                            examGrade.setSerialNumber(StringUtility.convertStringToIntegerForDetailAttendance(subElements.get(0).text()));
+                            examGrade.setSubjectName(StringUtility.getSubjectName(subElements.get(1).text()));
+                            examGrade.setSubjectCode(StringUtility.getSubjectCode(subElements.get(1).text()));
+                            examGrade.setExamCode(StringUtility.cleanString(subElements.get(2).text()));
+                            examGrade.setGrade(StringUtility.cleanString(subElements.get(3).text()));
 
-                            examGradesResult.getExamGrades().add(examGrades);
+                            examGradesResult.getExamGrades().add(examGrade);
                         }
                     }
 

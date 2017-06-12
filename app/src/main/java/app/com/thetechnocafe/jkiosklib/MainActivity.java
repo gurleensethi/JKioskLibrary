@@ -7,7 +7,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import app.com.tedconsulting.jkiosklib.R;
-import app.com.thetechnocafe.jkiosklibrary.Apis.ExamGrades.ExamGrades;
+import app.com.thetechnocafe.jkiosklibrary.Apis.ExamGrades.ExamGrade;
 import app.com.thetechnocafe.jkiosklibrary.Apis.ExamGrades.ExamGradesResult;
 import app.com.thetechnocafe.jkiosklibrary.Apis.ExamGrades.KioskExamGrades;
 import app.com.thetechnocafe.jkiosklibrary.Apis.WebkioskCredentials;
@@ -43,8 +43,8 @@ public class MainActivity extends AppCompatActivity {
                         .addResultCallback(new ResultCallbackContract<ExamGradesResult>() {
                             @Override
                             public void onResult(ExamGradesResult result) {
-                                for (ExamGrades examGrades : result.getExamGrades()) {
-                                    mTextView.append(examGrades.getGrade() + "\n");
+                                for (ExamGrade examGrade : result.getExamGrades()) {
+                                    mTextView.append(examGrade.getGrade() + "\n");
                                 }
                             }
 

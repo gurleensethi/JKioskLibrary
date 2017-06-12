@@ -8,17 +8,17 @@ import java.util.List;
  */
 
 public class ExamGradesResult {
-    private List<ExamGrades> examGrades;
+    private List<ExamGrade> examGrades;
 
     public ExamGradesResult() {
         examGrades = new ArrayList<>();
     }
 
-    public List<ExamGrades> getExamGrades() {
+    public List<ExamGrade> getExamGrades() {
         return examGrades;
     }
 
-    public void setExamGrades(List<ExamGrades> examGrades) {
+    public void setExamGrades(List<ExamGrade> examGrades) {
         this.examGrades = examGrades;
     }
 }
