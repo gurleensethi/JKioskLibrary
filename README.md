@@ -290,7 +290,69 @@ The `CgpaReportResult` object contains a list of `CgpaReport` which can be acces
 ###### Go to the [Best Practices](#best-practices) section to learn and leverage the API in a better way.
 
 ## Best Practices
-Coming Soon!
+Below are some of the best practices for this library. By no means you are confined to these practices, if something else works for you, great! These are practices that I have found to be helpful while developing and using this library.
+
+* ### Handling Activity Lifecycle
+Eveny `Kiosk` object has two methods `addResultCallback(ResultCallbackContract<T>)` and `removeCallback()`, these methods can go hand in hand with your `Activity/Fragment`'s lifecycle. Just initialize and add callback to your your `Kiosk` object in `onCreate(Bundle)` and remove the callback in `onDestroy()`
+
+```java
+
+private KioskLogin mKioskLogin;
+
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+    //Initialize
+    mKioskLogin = JKiosk.getLoginApi();
+    
+    //Add callback
+    mKioskLogin.login()
+        .addResultCallback(new ResultCallbackContract<LoginResult>() {
+            @Override
+            public void onResult(LoginResult result) {
+                if (result.isValidCredentials()) {
+                    //Login successful
+                } else {
+                    //Wrong credentials
+                }
+            }
+
+            @Override
+            public void onError(Exception e) {
+               //Handle any error here
+            }
+       });
+}
+
+@Override
+protected void onDestroy() {
+    //Remove callback
+    mKioskLogin.removeCallback();
+}
+```
+
+* ### Detecting Invalid Credentials
+Every time any Api is used it requires `WebkioskCredentials`, although you would get the credentials from the user and store it for future Api usage, there is alwasys a high probability that the credentials might change. In every Api call first the credentails are checked for validity, so if at any time the credentials are wrong `InvalidCredentialsException` is thown which is passed to the `onError(Exception)` function of the callback.
+
+```java
+mKioskSemesters = JKiosk.getSemestersApi();
+
+mKioskSemesters.getSemesters(new WebkioskCredentials("username", "dd-mm-yyyy", "password"))
+       .addResultCallback(new ResultCallbackContract<SemestersResult>() {
+            @Override
+            public void onResult(SemestersResult result) {
+                
+            }
+
+            @Override
+            public void onError(Exception e) {
+                //Handle any error here
+                if (e instanceof InvalidCredentialsException) {
+                    //Tak action and notify the user about wrong credentials
+                }
+            }
+       });
+```
+
 
 # Support
 If you have any idea or need a change in the library or found a bug, please [open an issue](https://github.com/gurleensethi/link-shortner/issues/new)
