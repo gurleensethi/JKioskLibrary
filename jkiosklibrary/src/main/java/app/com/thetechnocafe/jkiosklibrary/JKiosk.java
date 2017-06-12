@@ -4,6 +4,7 @@ package app.com.thetechnocafe.jkiosklibrary;
 import app.com.thetechnocafe.jkiosklibrary.Apis.Attendance.KioskAttendance;
 import app.com.thetechnocafe.jkiosklibrary.Apis.CgpaReport.KioskCgpaReport;
 import app.com.thetechnocafe.jkiosklibrary.Apis.DetailAttendance.KioskDetailAttendance;
+import app.com.thetechnocafe.jkiosklibrary.Apis.ExamGrades.KioskExamGrades;
 import app.com.thetechnocafe.jkiosklibrary.Apis.Login.KioskLogin;
 import app.com.thetechnocafe.jkiosklibrary.Apis.Semesters.KioskSemesters;
 import app.com.thetechnocafe.jkiosklibrary.Apis.SubjectFaculty.KioskSubjectFaculty;
@@ -45,8 +46,13 @@ public class JKiosk {
         return new KioskDetailAttendance();
     }
 
-    //Returns and object of Kiosk Cgpa Report
+    //Returns an object of Kiosk Cgpa Report
     public static KioskCgpaReport getCgpaReportApi() {
         return new KioskCgpaReport();
+    }
+
+    //Returns an object of Kiosk Exam Grades
+    public static KioskExamGrades getExamGradesApi() {
+        return new KioskExamGrades();
     }
 }
