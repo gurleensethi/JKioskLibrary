@@ -52,6 +52,7 @@ Since it takes a couple of seconds to get data from Webkiosk, JKiosk does all th
 * [Attendance](#attendance)
 * [Detail Attendance](#detail-attendance)
 * [CGPA Report](#cgpa-report)
+* [Exam Grades](#exam-grades)
 
 ### WebkioskCredentials
 `WebkioskCredentials` is a java object that is packaged with the library and is required by all the API's for proper functioning. Its contructor takes 3 parameters: `new WebkioskCredentials(enrollmentNumber, dateOfBirth, password)`. All three parameters are of type `String`. The dateOfBirth has to be passed in the format: `dd-mm-yyyy`.
@@ -61,7 +62,7 @@ Obtain the `KioskLogin` object from `JKiosk` by calling the `getLoginApi()` meth
 `KioskLogin` contains a function named `login(WebkioskCredentials)` that takes WebkioskCredentials as a parameter. Add a callback to get the response from login API.
 ```java
 JKiosk.getLoginApi()
-       .login(new WebkioskCredentials("username", "dd-mm-yyyy", "password"))
+       .login(new WebkioskCredentials("enrollmentNumber", "dd-mm-yyyy", "password"))
        .addResultCallback(new ResultCallbackContract<LoginResult>() {
             @Override
             public void onResult(LoginResult result) {
@@ -88,7 +89,7 @@ Obtain the `KioskSemesters` object from `JKiosk` by calling the `getSemestersApi
 The semesters are in format like `2016EVESEM` `2016ODDSEM` `2017ODDSEM`. These semester codes will be required in further API's to get semester specific data.
 ```java
 JKiosk.getSemestersApi()
-       .getSemesters(new WebkioskCredentials("username", "dd-mm-yyyy", "password"))
+       .getSemesters(new WebkioskCredentials("enrollmentNumber", "dd-mm-yyyy", "password"))
        .addResultCallback(new ResultCallbackContract<SemestersResult>() {
             @Override
             public void onResult(SemestersResult result) {
@@ -121,7 +122,7 @@ getSubjects(WebkioskCredentials, "2015EVESEM");
 
 ```java
 JKiosk.getSubjectsApi()
-       .getSubjects(new WebkioskCredentials("username", "dd-mm-yyyy", "password"))
+       .getSubjects(new WebkioskCredentials("enrollmentNumber", "dd-mm-yyyy", "password"))
        .addResultCallback(new ResultCallbackContract<SubjectResult>() {
             @Override
             public void onResult(SubjectResult result) {
@@ -158,7 +159,7 @@ getSubjectFaculty(WebkioskCredentials, "2015EVESEM");
 
 ```java
 JKiosk.getSubjectFacultyApi()
-       .getSubjectFaculty(new WebkioskCredentials("username", "dd-mm-yyyy", "password"))
+       .getSubjectFaculty(new WebkioskCredentials("enrollmentNumber", "dd-mm-yyyy", "password"))
        .addResultCallback(new ResultCallbackContract<SubjectFacultyResult>() {
             @Override
             public void onResult(SubjectFacultyResult result) {
@@ -195,7 +196,7 @@ getAttendance(WebkioskCredentials, "2015EVESEM");
 
 ```java
 JKiosk.getAttendanceApi()
-       .getAttendance(new WebkioskCredentials("username", "dd-mm-yyyy", "password"))
+       .getAttendance(new WebkioskCredentials("enrollmentNumber", "dd-mm-yyyy", "password"))
        .addResultCallback(new ResultCallbackContract<AttendanceResult>() {
             @Override
             public void onResult(AttendanceResult result) {
@@ -233,7 +234,7 @@ Obtain the `KioskDetailAttendance` object from `JKiosk` by calling the `getDetai
 
 ```java
 JKiosk.getDetailAttendanceApi()
-       .getDetailAttendance(new WebkioskCredentials("username", "dd-mm-yyyy", "password"), "some long url")
+       .getDetailAttendance(new WebkioskCredentials("enrollmentNumber", "dd-mm-yyyy", "password"), "some long url")
        .addResultCallback(new ResultCallbackContract<AttendanceResult>() {
             @Override
             public void onResult(AttendanceResult result) {
@@ -263,7 +264,7 @@ Obtain the `KioskCgpaReport` object from `JKiosk` by calling the `getCgpaReportA
 
 ```java
 JKiosk.getCgpaReportApi()
-       .getCgpaReport(new WebkioskCredentials("username", "dd-mm-yyyy", "password"))
+       .getCgpaReport(new WebkioskCredentials("enrollmentNumber", "dd-mm-yyyy", "password"))
        .addResultCallback(new ResultCallbackContract<CgpaReportResult>() {
             @Override
             public void onResult(CgpaReportResult result) {
@@ -287,6 +288,33 @@ JKiosk.getCgpaReportApi()
 ```
 The `CgpaReportResult` object contains a list of `CgpaReport` which can be accessed by calling `getCgpaReport()`.
 
+### Exam Grades
+Obtain the `KioskExamGrades` object from `JKiosk` by calling the `getExamGradesApi()` method.
+`KioskExamGrades` contains a function named `getExamGrades(WebkioskCredentials, Semester)`. Add a callback to get the response from exam grades API.
+
+```java
+JKiosk.getExamGradesApi()
+       .getExamGrades(new WebkioskCredentials("enrollmentNumber", "dd-mm-yyyy", "password"), "2015EVESEM")
+       .addResultCallback(new ResultCallbackContract<ExamGradesResult>() {
+            @Override
+            public void onResult(ExamGradesResult result) {
+                for (ExamGrade examGrade : result.getExamGrades()) {
+                    examGrade.getSerialNumber();
+                    examGrade.getSubjectName();
+                    examGrade.getSubjectCode();
+                    examGrade.getExamCode();
+                    examGrade.getGrade();
+                }
+            }
+
+            @Override
+            public void onError(Exception e) {
+                //Handle any error here
+            }
+       });
+```
+The `ExamGradesResult` object contains a list of `ExamGrade` which can be accessed by calling `getExamGrades()`.
+
 ###### Go to the [Best Practices](#best-practices) section to learn and leverage the API in a better way.
 
 ## Best Practices
@@ -305,7 +333,7 @@ protected void onCreate(Bundle savedInstanceState) {
     mKioskLogin = JKiosk.getLoginApi();
     
     //Add callback
-    mKioskLogin.login()
+    mKioskLogin.login(new WebkioskCredentials("enrollmentNumber", "dd-mm-yyyy", "password")
         .addResultCallback(new ResultCallbackContract<LoginResult>() {
             @Override
             public void onResult(LoginResult result) {
@@ -347,11 +375,11 @@ protected void onCreate(Bundle savedInstanceState) {
     mKioskLogin = JKiosk.getLoginApi();
     mKioskSemesters = JKiosk.getSemestersApi();
     
-    mKioskLogin.login()
+    mKioskLogin.login(new WebkioskCredentials("enrollmentNumber", "dd-mm-yyyy", "password")
         .addResultCallback(new ResultCallbackContract<LoginResult>() {
             ...
        });
-    mKioskSemesters.getSemesters()
+    mKioskSemesters.getSemesters(new WebkioskCredentials("enrollmentNumber", "dd-mm-yyyy", "password")
         .addResultCallback(new ResultCallbackContract<SemestersResult>() {
             ...
         });
@@ -374,7 +402,7 @@ Every time any Api is used it requires `WebkioskCredentials`, although you would
 ```java
 mKioskSemesters = JKiosk.getSemestersApi();
 
-mKioskSemesters.getSemesters(new WebkioskCredentials("username", "dd-mm-yyyy", "password"))
+mKioskSemesters.getSemesters(new WebkioskCredentials("enrollmentNumber", "dd-mm-yyyy", "password"))
        .addResultCallback(new ResultCallbackContract<SemestersResult>() {
             @Override
             public void onResult(SemestersResult result) {
@@ -385,7 +413,7 @@ mKioskSemesters.getSemesters(new WebkioskCredentials("username", "dd-mm-yyyy", "
             public void onError(Exception e) {
                 //Handle any error here
                 if (e instanceof InvalidCredentialsException) {
-                    //Tak action and notify the user about wrong credentials
+                    //Take action and notify the user about wrong credentials
                 }
             }
        });
