@@ -16,6 +16,7 @@ allprojects {
 ```gradle
 compile 'com.github.gurleensethi:JKioskLibrary:v1.0.0-alpha5'
 ```
+
 ## Usage and API
 All the apis can be accessed by using the `JKiosk` object, so suppose to access all semesters of a user, write `JKiosk.getSemestersApi()`. It will return the `KioskSemester` object which can be used to reterive the list of all semesters.
 
@@ -50,6 +51,7 @@ Since it takes a couple of seconds to get data from Webkiosk, JKiosk does all th
 * [Subject Faculty](#subject-faculty)
 * [Attendance](#attendance)
 * [Detail Attendance](#detail-attendance)
+* [CGPA Report](#cgpa-report)
 
 ### WebkioskCredentials
 `WebkioskCredentials` is a java object that is packaged with the library and is required by all the API's for proper functioning. Its contructor takes 3 parameters: `new WebkioskCredentials(enrollmentNumber, dateOfBirth, password)`. All three parameters are of type `String`. The dateOfBirth has to be passed in the format: `dd-mm-yyyy`.
@@ -255,5 +257,40 @@ The `DetailAttendanceResult` object contains a list of `DetailAttendance` which 
 
 ###### Go to the [Best Practices](#best-practices) section to learn and leverage the API in a better way.
 
+### CGPA Report
+Obtain the `KioskCgpaReport` object from `JKiosk` by calling the `getCgpaReportApi()` method.
+`KioskCgpaReport` contains a function named `getCgpaReport(WebkioskCredentials)`. Add a callback to get the response from cgpa report API.
+
+```java
+JKiosk.getCgpaReportApi()
+       .getCgpaReport(new WebkioskCredentials("username", "dd-mm-yyyy", "password"))
+       .addResultCallback(new ResultCallbackContract<CgpaReportResult>() {
+            @Override
+            public void onResult(CgpaReportResult result) {
+                for (CgpaReport report : result.getCgpaReports()) {
+                    report.getSemesterIndex();    //Semester number(1st semester, 2nd semester, etc)
+                    report.getGradePoints();
+                    report.getCourseCredit();
+                    report.getEarnedCredit();
+                    report.getPointsSecuredSgpa();
+                    report.getPointsSecuredCgpa();
+                    report.getSgpa();
+                    report.getCgpa();
+                }
+            }
+
+            @Override
+            public void onError(Exception e) {
+                //Handle any error here
+            }
+       });
+```
+The `CgpaReportResult` object contains a list of `CgpaReport` which can be accessed by calling `getCgpaReport()`.
+
+###### Go to the [Best Practices](#best-practices) section to learn and leverage the API in a better way.
+
 ## Best Practices
 Coming Soon!
+
+# Support
+If you have any idea or need a change in the library or found a bug, please [open an issue](https://github.com/gurleensethi/link-shortner/issues/new)
