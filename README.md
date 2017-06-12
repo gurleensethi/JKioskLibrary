@@ -330,6 +330,44 @@ protected void onDestroy() {
 }
 ```
 
+* ### Removing Callbacks from Multiple Kiosk Api's at once
+If you are using 2 or more Api's at once then you don't need to call `removeCallback()` on each one, you can make use of the `KioskArray` object. Just add all your `Kiosk` Api objects in KioskArray by using the method `add()` and call the `removeAllCallbacks()` method to remove callbacks from each one of them.
+
+```java
+
+private KioskArray mKioskArray;
+private KioskLogin mKioskLogin;
+private KioskSemesters mKioskSemesters;
+
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+    mKioskArray = new KioskArray();
+    
+    //Initialize
+    mKioskLogin = JKiosk.getLoginApi();
+    mKioskSemesters = JKiosk.getSemestersApi();
+    
+    mKioskLogin.login()
+        .addResultCallback(new ResultCallbackContract<LoginResult>() {
+            ...
+       });
+    mKioskSemesters.getSemesters()
+        .addResultCallback(new ResultCallbackContract<SemestersResult>() {
+            ...
+        });
+        
+    //Add api's object to array
+    mKioskArray.add(mKioskLogin);
+    mKioskArray.add(mKioskSemesters);
+}
+
+@Override
+protected void onDestroy() {
+    //Remove all callback at once
+    mKioskArray.removeAllCallbacks();
+}
+```
+
 * ### Detecting Invalid Credentials
 Every time any Api is used it requires `WebkioskCredentials`, although you would get the credentials from the user and store it for future Api usage, there is alwasys a high probability that the credentials might change. In every Api call first the credentails are checked for validity, so if at any time the credentials are wrong `InvalidCredentialsException` is thown which is passed to the `onError(Exception)` function of the callback.
 
