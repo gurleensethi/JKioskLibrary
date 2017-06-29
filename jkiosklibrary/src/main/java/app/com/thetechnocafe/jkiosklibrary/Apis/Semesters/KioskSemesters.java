@@ -34,7 +34,7 @@ public class KioskSemesters implements KioskContract<SemestersResult> {
     * Get the cookies and hit the https://webkiosk.jiit.ac.in/StudentFiles/Academic/StudSubjectFaculty.jsp url
     * to fetch the list of all semesters
     * */
-    private KioskSemesters getSemesters(final String enrollmentNumber, final String dateOfBirth, final String password) {
+    private KioskSemesters getSemesters(final String enrollmentNumber, final String dateOfBirth, final String password,final String college) {
         //Execute in different thread
         final Thread thread = new Thread() {
             @Override
@@ -43,7 +43,7 @@ public class KioskSemesters implements KioskContract<SemestersResult> {
 
                 try {
                     //Get the cookies from Webkiosk's website
-                    Map<String, String> cookies = CookieUtility.getCookiesFor(enrollmentNumber, dateOfBirth, password);
+                    Map<String, String> cookies = CookieUtility.getCookiesFor(enrollmentNumber, dateOfBirth, password,college);
 
                     //Login into webkiosk using the cookies
                     Document document = Jsoup.connect("https://webkiosk.jiit.ac.in/StudentFiles/Academic/StudSubjectFaculty.jsp")
@@ -108,7 +108,7 @@ public class KioskSemesters implements KioskContract<SemestersResult> {
     * Overloaded login method that takes WebkioskCredentials object
     * */
     public KioskSemesters getSemesters(WebkioskCredentials credentials) {
-        getSemesters(credentials.getEnrollmentNumber(), credentials.getDateOfBirth(), credentials.getPassword());
+        getSemesters(credentials.getEnrollmentNumber(), credentials.getDateOfBirth(), credentials.getPassword(), credentials.getCollege());
         return this;
     }
 

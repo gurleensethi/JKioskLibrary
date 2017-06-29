@@ -35,7 +35,7 @@ public class KioskSubjectFaculty implements KioskContract<SubjectFacultyResult> 
     * Get the cookies and hit the https://webkiosk.jiit.ac.in/StudentFiles/Academic/StudSubjectFaculty.jsp?x=&exam={semesterCode} url
     * to fetch the list of all subject faculty for the semester provided
     * */
-    private KioskSubjectFaculty getSubjectFaculty(final String enrollmentNumber, final String dateOfBirth, final String password, final String url) {
+    private KioskSubjectFaculty getSubjectFaculty(final String enrollmentNumber, final String dateOfBirth, final String password, final String college, final String url) {
         //Execute in different thread
         final Thread thread = new Thread() {
             @Override
@@ -44,7 +44,7 @@ public class KioskSubjectFaculty implements KioskContract<SubjectFacultyResult> 
 
                 try {
                     //Get the cookies from Webkiosk's website
-                    Map<String, String> cookies = CookieUtility.getCookiesFor(enrollmentNumber, dateOfBirth, password);
+                    Map<String, String> cookies = CookieUtility.getCookiesFor(enrollmentNumber, dateOfBirth, password, college);
 
                     //Login into webkiosk using the cookies
                     Document document = Jsoup.connect(url)
@@ -121,7 +121,7 @@ public class KioskSubjectFaculty implements KioskContract<SubjectFacultyResult> 
     * Overloaded login method that takes WebkioskCredentials object
     * */
     public KioskSubjectFaculty getSubjectFaculty(WebkioskCredentials credentials, String semesterCode) {
-        getSubjectFaculty(credentials.getEnrollmentNumber(), credentials.getDateOfBirth(), credentials.getPassword(), URL + Constants.URL_QUERY_PARAM + semesterCode);
+        getSubjectFaculty(credentials.getEnrollmentNumber(), credentials.getDateOfBirth(), credentials.getPassword(),credentials.getCollege(), URL + Constants.URL_QUERY_PARAM + semesterCode);
         return this;
     }
 
@@ -129,7 +129,7 @@ public class KioskSubjectFaculty implements KioskContract<SubjectFacultyResult> 
     * Overloaded login method that takes WebkioskCredentials object and semester code
     * */
     public KioskSubjectFaculty getSubjectFaculty(WebkioskCredentials credentials) {
-        getSubjectFaculty(credentials.getEnrollmentNumber(), credentials.getDateOfBirth(), credentials.getPassword(), URL);
+        getSubjectFaculty(credentials.getEnrollmentNumber(), credentials.getDateOfBirth(), credentials.getPassword(),credentials.getCollege(), URL);
         return this;
     }
 

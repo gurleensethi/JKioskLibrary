@@ -35,7 +35,7 @@ public class KioskDetailAttendance implements KioskContract<DetailAttendanceResu
     * Get the cookies and hit the url provided
     * to fetch the list of detailed attendance
     * */
-    private KioskDetailAttendance getAttendance(final String enrollmentNumber, final String dateOfBirth, final String password, final String url) {
+    private KioskDetailAttendance getAttendance(final String enrollmentNumber, final String dateOfBirth, final String password,final String college, final String url) {
         //Execute in different thread
         Thread thread = new Thread() {
             @Override
@@ -44,7 +44,7 @@ public class KioskDetailAttendance implements KioskContract<DetailAttendanceResu
 
                 try {
                     //Get the cookies from Webkiosk's website
-                    Map<String, String> cookies = CookieUtility.getCookiesFor(enrollmentNumber, dateOfBirth, password);
+                    Map<String, String> cookies = CookieUtility.getCookiesFor(enrollmentNumber, dateOfBirth, password,college);
 
                     //Login into webkiosk using the cookies
                     Document document = Jsoup.connect(url)
@@ -123,7 +123,8 @@ public class KioskDetailAttendance implements KioskContract<DetailAttendanceResu
     * Overloaded method that takes WebkioskCredentials object
     * */
     public KioskDetailAttendance getDetailAttendance(WebkioskCredentials credentials, String attendanceUrl) {
-        getAttendance(credentials.getEnrollmentNumber(), credentials.getDateOfBirth(), credentials.getPassword(), attendanceUrl);
+        getAttendance(credentials.getEnrollmentNumber(), credentials.getDateOfBirth(),
+                credentials.getPassword(),credentials.getCollege(), attendanceUrl);
         return this;
     }
 
