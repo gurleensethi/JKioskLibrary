@@ -6,7 +6,7 @@ import org.jsoup.Jsoup;
 import java.io.IOException;
 import java.util.Map;
 
-import app.com.thetechnocafe.jkiosklibrary.Constants;
+import app.com.thetechnocafe.jkiosklibrary.Consts.Constants;
 
 /**
  * Created by gurleensethi on 06/06/17.

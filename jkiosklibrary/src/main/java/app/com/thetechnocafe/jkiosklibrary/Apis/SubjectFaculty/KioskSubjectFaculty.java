@@ -10,7 +10,7 @@ import org.jsoup.select.Elements;
 import java.util.Map;
 
 import app.com.thetechnocafe.jkiosklibrary.Apis.WebkioskCredentials;
-import app.com.thetechnocafe.jkiosklibrary.Constants;
+import app.com.thetechnocafe.jkiosklibrary.Consts.Constants;
 import app.com.thetechnocafe.jkiosklibrary.Exceptions.InvalidCredentialsException;
 import app.com.thetechnocafe.jkiosklibrary.Contracts.ResultCallbackContract;
 import app.com.thetechnocafe.jkiosklibrary.Utilities.CookieUtility;

@@ -9,7 +9,7 @@ import org.jsoup.nodes.Document;
 import java.util.Map;
 
 import app.com.thetechnocafe.jkiosklibrary.Apis.WebkioskCredentials;
-import app.com.thetechnocafe.jkiosklibrary.Constants;
+import app.com.thetechnocafe.jkiosklibrary.Consts.Constants;
 import app.com.thetechnocafe.jkiosklibrary.Contracts.ResultCallbackContract;
 import app.com.thetechnocafe.jkiosklibrary.Utilities.CookieUtility;
 import app.com.thetechnocafe.jkiosklibrary.Contracts.KioskContract;

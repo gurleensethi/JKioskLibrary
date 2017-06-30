@@ -1,4 +1,4 @@
-package app.com.thetechnocafe.jkiosklibrary;
+package app.com.thetechnocafe.jkiosklibrary.Consts;
 
 /**
  * Created by gurleen on 7/6/17.
