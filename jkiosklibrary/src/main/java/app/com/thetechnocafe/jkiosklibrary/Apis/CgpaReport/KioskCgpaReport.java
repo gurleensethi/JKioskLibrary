@@ -36,7 +36,7 @@ public class KioskCgpaReport implements KioskContract<CgpaReportResult> {
     * Get the cookies and hit the https://webkiosk.jiit.ac.in/StudentFiles/Exam/StudCGPAReport.jsp url
     * to fetch the list of cgpa and sgpa
     * */
-    private KioskCgpaReport getCgpaReport(final String enrollmentNumber, final String dateOfBirth, final String password, final String url) {
+    private KioskCgpaReport getCgpaReport(final String enrollmentNumber, final String dateOfBirth, final String password,final String college, final String url) {
         //Execute in different thread
         Thread thread = new Thread() {
             @Override
@@ -45,7 +45,7 @@ public class KioskCgpaReport implements KioskContract<CgpaReportResult> {
 
                 try {
                     //Get the cookies from Webkiosk's website
-                    Map<String, String> cookies = CookieUtility.getCookiesFor(enrollmentNumber, dateOfBirth, password);
+                    Map<String, String> cookies = CookieUtility.getCookiesFor(enrollmentNumber, dateOfBirth, password,college);
 
                     //Login into webkiosk using the cookies
                     Document document = Jsoup.connect(url)
@@ -120,7 +120,7 @@ public class KioskCgpaReport implements KioskContract<CgpaReportResult> {
     * Overloaded method that takes Webkiosk Credentials
     * */
     public KioskCgpaReport getCgpaReport(WebkioskCredentials credentials) {
-        getCgpaReport(credentials.getEnrollmentNumber(), credentials.getDateOfBirth(), credentials.getPassword(), URL);
+        getCgpaReport(credentials.getEnrollmentNumber(), credentials.getDateOfBirth(), credentials.getPassword(),credentials.getCollege(), URL);
         return this;
     }
 

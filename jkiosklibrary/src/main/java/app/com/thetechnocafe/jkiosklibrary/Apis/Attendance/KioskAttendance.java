@@ -36,7 +36,7 @@ public class KioskAttendance implements KioskContract<AttendanceResult> {
     * Get the cookies and hit the https://webkiosk.jiit.ac.in/StudentFiles/Academic/StudentAttendanceList.jsp url
     * to fetch the list of attendance for a given semester
     * */
-    private KioskAttendance getAttendance(final String enrollmentNumber, final String dateOfBirth, final String password, final String url) {
+    private KioskAttendance getAttendance(final String enrollmentNumber, final String dateOfBirth, final String password,final String college, final String url) {
         //Execute in different thread
         Thread thread = new Thread() {
             @Override
@@ -45,7 +45,7 @@ public class KioskAttendance implements KioskContract<AttendanceResult> {
 
                 try {
                     //Get the cookies from Webkiosk's website
-                    Map<String, String> cookies = CookieUtility.getCookiesFor(enrollmentNumber, dateOfBirth, password);
+                    Map<String, String> cookies = CookieUtility.getCookiesFor(enrollmentNumber, dateOfBirth, password,college);
 
                     //Login into webkiosk using the cookies
                     Document document = Jsoup.connect(url)
@@ -140,7 +140,7 @@ public class KioskAttendance implements KioskContract<AttendanceResult> {
     * Overloaded method that takes WebkioskCredentials object
     * */
     public KioskAttendance getAttendance(WebkioskCredentials credentials, String semester) {
-        getAttendance(credentials.getEnrollmentNumber(), credentials.getDateOfBirth(), credentials.getPassword(), URL + Constants.URL_QUERY_PARAM + semester);
+        getAttendance(credentials.getEnrollmentNumber(), credentials.getDateOfBirth(), credentials.getPassword(), credentials.getCollege(),URL + Constants.URL_QUERY_PARAM + semester);
         return this;
     }
 
@@ -148,7 +148,7 @@ public class KioskAttendance implements KioskContract<AttendanceResult> {
     * Overloaded method that loads gets the data for default semester
     * */
     public KioskAttendance getAttendance(WebkioskCredentials credentials) {
-        getAttendance(credentials.getEnrollmentNumber(), credentials.getDateOfBirth(), credentials.getPassword(), URL);
+        getAttendance(credentials.getEnrollmentNumber(), credentials.getDateOfBirth(), credentials.getPassword(), credentials.getCollege(),URL);
         return this;
     }
 

@@ -36,7 +36,7 @@ public class KioskExamGrades implements KioskContract<ExamGradesResult> {
     * Get the cookies and hit the https://webkiosk.jiit.ac.in/StudentFiles/Exam/StudentEventGradesView.jsp url
     * to fetch the list of grades for a given semester
     * */
-    private KioskExamGrades getExamGrades(final String enrollmentNumber, final String dateOfBirth, final String password, final String url) {
+    private KioskExamGrades getExamGrades(final String enrollmentNumber, final String dateOfBirth, final String password,final String college, final String url) {
         //Execute in different thread
         Thread thread = new Thread() {
             @Override
@@ -45,7 +45,7 @@ public class KioskExamGrades implements KioskContract<ExamGradesResult> {
 
                 try {
                     //Get the cookies from Webkiosk's website
-                    Map<String, String> cookies = CookieUtility.getCookiesFor(enrollmentNumber, dateOfBirth, password);
+                    Map<String, String> cookies = CookieUtility.getCookiesFor(enrollmentNumber, dateOfBirth, password,college);
 
                     //Login into webkiosk using the cookies
                     Document document = Jsoup.connect(url)
@@ -119,7 +119,7 @@ public class KioskExamGrades implements KioskContract<ExamGradesResult> {
     * Overloaded method that takes WebkioskCredentials object
     * */
     public KioskExamGrades getExamGrades(WebkioskCredentials credentials, String semester) {
-        getExamGrades(credentials.getEnrollmentNumber(), credentials.getDateOfBirth(), credentials.getPassword(), URL + Constants.URL_QUERY_PARAM + semester);
+        getExamGrades(credentials.getEnrollmentNumber(), credentials.getDateOfBirth(), credentials.getPassword(),credentials.getCollege(), URL + Constants.URL_QUERY_PARAM + semester);
         return this;
     }
 

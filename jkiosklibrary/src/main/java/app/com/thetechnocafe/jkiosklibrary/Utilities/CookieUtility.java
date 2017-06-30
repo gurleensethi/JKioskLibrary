@@ -20,7 +20,7 @@ public class CookieUtility {
     * from the host.
     * These cookies can be used to further crawl other Webkiosk Urls
     * */
-    public static Map<String, String> getCookiesFor(String enrollmentNumber, String dateOfBirth, String password) throws IOException {
+    public static Map<String, String> getCookiesFor(String enrollmentNumber, String dateOfBirth, String password, String college) throws IOException {
         Connection.Response loginForm = Jsoup.connect("https://webkiosk.jiit.ac.in/")
                 .method(Connection.Method.GET)
                 .userAgent(Constants.AGENT_MOZILLA)
@@ -28,7 +28,7 @@ public class CookieUtility {
 
         Connection.Response mainPage = Jsoup.connect("https://webkiosk.jiit.ac.in/CommonFiles/UserActionn.jsp")
                 .data("txtInst", "Institute")
-                .data("InstCode", "JIIT")
+                .data("InstCode", college)
                 .data("txtuType", "Member Type")
                 .data("UserType", "S")
                 .data("txtCode", "Enrollment No")
