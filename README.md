@@ -1,3 +1,5 @@
+[![](https://jitpack.io/v/gurleensethi/JKioskLibrary.svg)](https://jitpack.io/#gurleensethi/JKioskLibrary)
+
 # JKioskLibrary
 All the JIIT Webkiosk data in a nice lib for Android Developers
 
