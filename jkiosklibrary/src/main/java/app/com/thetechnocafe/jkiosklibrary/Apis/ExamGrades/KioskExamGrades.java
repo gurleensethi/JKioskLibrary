@@ -12,10 +12,10 @@ import java.util.Map;
 
 import app.com.thetechnocafe.jkiosklibrary.Apis.WebkioskCredentials;
 import app.com.thetechnocafe.jkiosklibrary.Consts.Constants;
-import app.com.thetechnocafe.jkiosklibrary.Exceptions.InvalidCredentialsException;
-import app.com.thetechnocafe.jkiosklibrary.Contracts.ResultCallbackContract;
-import app.com.thetechnocafe.jkiosklibrary.Utilities.CookieUtility;
 import app.com.thetechnocafe.jkiosklibrary.Contracts.KioskContract;
+import app.com.thetechnocafe.jkiosklibrary.Contracts.ResultCallbackContract;
+import app.com.thetechnocafe.jkiosklibrary.Exceptions.InvalidCredentialsException;
+import app.com.thetechnocafe.jkiosklibrary.Utilities.CookieUtility;
 import app.com.thetechnocafe.jkiosklibrary.Utilities.StringUtility;
 
 /**
@@ -55,6 +55,7 @@ public class KioskExamGrades implements KioskContract<ExamGradesResult> {
 
                     //Create new subject result
                     final ExamGradesResult examGradesResult = new ExamGradesResult();
+
 
                     //Check if the returned web page contains the string "Signin Action"
                     //if yes then login was unsuccessful
