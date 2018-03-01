@@ -2,6 +2,8 @@ package app.com.thetechnocafe.jkiosklibrary.Utilities;
 
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.Map;
@@ -26,6 +28,18 @@ public class CookieUtility {
                 .userAgent(Constants.AGENT_MOZILLA)
                 .execute();
 
+        //Extract captcha
+        String captcha = "";
+        Elements fontElements = loginForm.parse().select("font");
+        for (Element element : fontElements) {
+            if (element.hasAttr("face")
+                    && element.hasAttr("size")
+                    && element.attr("face").trim().toLowerCase().equals("casteller")
+                    && element.attr("size").equals("5")) {
+                captcha = element.text().trim();
+            }
+        }
+
         Connection.Response mainPage = Jsoup.connect("https://webkiosk.jiit.ac.in/CommonFiles/UserActionn.jsp")
                 .data("txtInst", "Institute")
                 .data("InstCode", college)
@@ -38,6 +52,8 @@ public class CookieUtility {
                 .data("txtPin", "Password/Pin")
                 .data("Password", password)
                 .data("BTNSubmit", "Submit")
+                .data("txtCode", "Enter Captcha     ")
+                .data("txtcap", captcha)
                 .cookies(loginForm.cookies())
                 .execute();
 
